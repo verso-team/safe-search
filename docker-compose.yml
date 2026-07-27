@@ -1,0 +1,44 @@
+services:
+  frontend:
+    image: node:20-alpine
+    working_dir: /app
+    command: sh -c "echo 'Frontend scaffold ready' && sleep infinity"
+    volumes:
+      - ./frontend:/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+  backend:
+    image: python:3.12-slim
+    working_dir: /app
+    command: sh -c "echo 'Backend scaffold ready' && sleep infinity"
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql://safe_search:safe_search@db:5432/safe_search
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres:18
+    environment:
+      POSTGRES_DB: safe_search
+      POSTGRES_USER: safe_search
+      POSTGRES_PASSWORD: safe_search
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U safe_search -d safe_search"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  postgres_data:
