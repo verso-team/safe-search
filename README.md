@@ -189,7 +189,6 @@ research/<조사명>
 - GitHub
 - Figma
 - Notion
----
 
 ---
 
