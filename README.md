@@ -149,7 +149,7 @@ design/<화면명>
 research/<조사명>
 ```
 
-```
+---
 ## 🛠 Tech Stack
 
 ### Frontend
@@ -189,7 +189,7 @@ research/<조사명>
 - GitHub
 - Figma
 - Notion
-```
+---
 
 ---
 
