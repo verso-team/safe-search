@@ -76,25 +76,155 @@ AI 사건 유형·위험 신호·긴급도 분석
 
 ```text
 safe-search/
-├── frontend/                   # 사용자·관리자 웹 화면
-├── backend/                    # API, 서비스 로직, 데이터 저장
-├── ai/                         # 모델 학습·추론·평가
-├── data/                       # 원천·가공·샘플 데이터
-├── docs/
-│   ├── scenario/               # 피해자 입력 및 범죄 시나리오
-│   ├── psychology/             # 심리적 안전 기준과 문구
-│   ├── legal/                  # 범죄·법률·신고 기준
-│   ├── presentation/           # 발표자료와 시연 대본
-│   └── professor-materials/    # 교수님 자문자료
-├── design/                     # UI/UX, 와이어프레임, 디자인 자산
-├── research/
-│   ├── market/                 # 시장·유사 서비스·사업화 조사
-│   └── public-operation/       # 공공기관 연계·운영 조사
-├── scripts/                    # 실행·데이터 처리 자동화
-├── CONTRIBUTING.md
-├── .gitignore
-├── docker-compose.yml
-└── README.md
+│
+├─ frontend/
+│
+├─ backend/
+│
+├─ ai/
+│
+├─ data/
+│
+├─ scripts/
+│
+├─ docs/
+│  │
+│  ├─ development/
+│  │  │
+│  │  ├─ project-overview/
+│  │  │  ├─ project-overview.md
+│  │  │  ├─ service-flow.md
+│  │  │  └─ development-roadmap.md
+│  │  │
+│  │  ├─ prototype/
+│  │  │  ├─ current-demo/
+│  │  │  ├─ user-screen/
+│  │  │  ├─ admin-screen/
+│  │  │  └─ system-architecture/
+│  │  │
+│  │  ├─ ai/
+│  │  │  ├─ training-structure/
+│  │  │  ├─ dataset/
+│  │  │  ├─ analysis-examples/
+│  │  │  ├─ risk-analysis/
+│  │  │  ├─ confidence/
+│  │  │  └─ limitations/
+│  │  │
+│  │  ├─ security/
+│  │  │  ├─ privacy/
+│  │  │  ├─ security-plan/
+│  │  │  └─ pii-protection/
+│  │  │
+│  │  └─ deliverables-0729/
+│  │     ├─ project-overview/
+│  │     ├─ current-demo/
+│  │     ├─ ai-analysis-example/
+│  │     ├─ safe-search-query/
+│  │     ├─ search-risk-analysis/
+│  │     ├─ human-review-admin/
+│  │     └─ development-schedule/
+│  │
+│  ├─ ai-planning/
+│  │  │
+│  │  ├─ psychology/
+│  │  │  ├─ victim-psychology/
+│  │  │  ├─ user-input-review/
+│  │  │  ├─ guidance-message-review/
+│  │  │  └─ safe-ux/
+│  │  │
+│  │  ├─ crime-scenario/
+│  │  │  ├─ digital-crime-scenarios/
+│  │  │  ├─ victim-input-examples/
+│  │  │  └─ risk-normal-boundary/
+│  │  │
+│  │  ├─ legal/
+│  │  │  ├─ crime-types/
+│  │  │  ├─ reporting-procedure/
+│  │  │  ├─ evidence-preservation/
+│  │  │  ├─ official-agency-guidelines/
+│  │  │  └─ human-review-criteria/
+│  │  │
+│  │  └─ deliverables-0729/
+│  │     ├─ victim-input-examples/
+│  │     ├─ crime-scenarios/
+│  │     ├─ risk-normal-boundary/
+│  │     ├─ police-law-questions/
+│  │     ├─ psychology-questions/
+│  │     └─ ai-message-review/
+│  │
+│  ├─ operations/
+│  │  │
+│  │  ├─ market/
+│  │  │  ├─ similar-services/
+│  │  │  ├─ market-analysis/
+│  │  │  ├─ business-model/
+│  │  │  └─ differentiation/
+│  │  │
+│  │  ├─ public-operation/
+│  │  │  ├─ police/
+│  │  │  ├─ kisa/
+│  │  │  ├─ agency-linkage/
+│  │  │  └─ admin-operation-process/
+│  │  │
+│  │  ├─ content/
+│  │  │  ├─ team-intro-video/
+│  │  │  └─ presentation-structure/
+│  │  │
+│  │  ├─ design/
+│  │  │  ├─ ui/
+│  │  │  ├─ ux/
+│  │  │  ├─ color-system/
+│  │  │  ├─ information-hierarchy/
+│  │  │  ├─ layouts/
+│  │  │  └─ visualization/
+│  │  │
+│  │  └─ deliverables-0729/
+│  │     ├─ market-analysis/
+│  │     ├─ public-agency-research/
+│  │     ├─ operation-process/
+│  │     ├─ presentation-design/
+│  │     └─ final-consulting-material/
+│  │
+│  ├─ professor-materials/
+│  │  │
+│  │  ├─ common/
+│  │  │  ├─ project-overview/
+│  │  │  ├─ service-flow/
+│  │  │  ├─ demo/
+│  │  │  └─ ai-analysis/
+│  │  │
+│  │  ├─ lee-hyeokwoo/
+│  │  │  └─ questions.md
+│  │  │
+│  │  ├─ lim-seonyoung/
+│  │  │  └─ questions.md
+│  │  │
+│  │  ├─ kim-donggun/
+│  │  │  └─ questions.md
+│  │  │
+│  │  ├─ kim-eunki/
+│  │  │  └─ questions.md
+│  │  │
+│  │  └─ final/
+│  │
+│  └─ presentation/
+│     ├─ slides/
+│     ├─ images/
+│     ├─ diagrams/
+│     └─ final/
+│
+├─ design/
+│  ├─ figma/
+│  ├─ assets/
+│  ├─ screenshots/
+│  └─ exports/
+│
+├─ .github/
+│  ├─ ISSUE_TEMPLATE/
+│  └─ workflows/
+│
+├─ README.md
+└─ CONTRIBUTING.md
 ```
 
 ---
