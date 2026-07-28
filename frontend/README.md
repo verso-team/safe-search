@@ -1,3 +1,5 @@
 # Frontend
 
-사용자 화면과 인간 검토 관리자 화면을 개발합니다.
+사용자 화면, 분석 결과, 관리자 검토 화면을 담당합니다.
+
+예정 기술: Next.js / TypeScript / Tailwind CSS / shadcn/ui

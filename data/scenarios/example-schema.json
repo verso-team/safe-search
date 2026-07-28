@@ -1,0 +1,10 @@
+{
+  "id": "scenario-001",
+  "crime_type": "example",
+  "user_input": "가상의 피해자 입력 예시",
+  "urgency": "medium",
+  "risk_factors": [],
+  "expected_safe_queries": [],
+  "human_review_required": false,
+  "source_or_basis": "team-created fictional scenario"
+}

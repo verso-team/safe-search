@@ -1,3 +1,7 @@
 # AI
 
-피해 유형 분석, 위험도 분류, 검색 결과 위험 탐지 모델을 관리합니다.
+사건 유형 분류, 긴급도 분석, 검색 위험도 분석, 안전 검색어 생성, 신뢰도 평가를 담당합니다.
+
+```text
+input → pii_check → crime_type → urgency → risk_analysis → safe_query → institution → confidence → human_review
+```

@@ -1,3 +1,13 @@
 # Design
 
-UI/UX, 와이어프레임, 화면 디자인과 디자인 기준을 관리합니다.
+김은솔 중심 UI/UX Workspace.
+
+- ui/
+- ux/
+- color-system/
+- information-hierarchy/
+- layouts/
+- diagrams/
+- screenshots/
+- assets/
+- exports/
