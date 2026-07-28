@@ -324,4 +324,4 @@ docker compose down
 
 **Team Verso**
 
-프로젝트 관련 작업과 제안은 GitHub Issue와 Pull Request를 통해 관리합니다.
+프로젝트 관련 작업과 제안은 GitHub Issue와 Pull Request를 통해 관리
