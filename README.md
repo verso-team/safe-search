@@ -149,6 +149,48 @@ design/<화면명>
 research/<조사명>
 ```
 
+```
+## 🛠 Tech Stack
+
+### Frontend
+- Next.js
+- TypeScript
+- Tailwind CSS
+- shadcn/ui
+
+### Backend
+- FastAPI
+- Python
+- Pydantic
+
+### AI / NLP
+- OpenAI API
+- LangChain
+- Sentence Transformers
+- Scikit-learn
+
+### Data
+- PostgreSQL
+- pgvector
+
+### Security
+- Input Validation & Sanitization
+- PII Detection / Masking
+- Prompt Injection Defense
+- Rate Limiting
+
+### Infrastructure
+- Docker
+- GitHub Actions
+- Vercel
+- Supabase
+
+### Collaboration
+- GitHub
+- Figma
+- Notion
+```
+
 ---
 
 ## Collaboration Rules
