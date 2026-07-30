@@ -23,6 +23,8 @@ INDICATORS: tuple[tuple[str, str, float], ...] = (
     (r"\?{2,}|!{2,}", "반복 문장부호", 0.10),
     (r"\d+\s*(가지|초|분)\s*(만에|안에)?", "목록·시간을 이용한 과장형 표현", 0.24),
 )
+POLICY_VERSION = "clickbait-policy-2026.07.30-v2"
+DECISION_THRESHOLDS = {"suspicious": 0.28, "clickbait": 0.45}
 
 
 def _heuristic_analysis(request: ClickbaitAnalyzeRequest) -> ClickbaitAnalyzeResponse:
@@ -61,11 +63,14 @@ def _heuristic_analysis(request: ClickbaitAnalyzeRequest) -> ClickbaitAnalyzeRes
         reasons.append("판단할 문맥이 충분하지 않습니다.")
 
     trace_material = f"{request.title}|{request.body}|{request.source_url or ''}"
-    trace_id = sha256(trace_material.encode("utf-8")).hexdigest()[:16]
+    input_sha256 = sha256(trace_material.encode("utf-8")).hexdigest()
+    trace_id = input_sha256[:16]
     confidence = min(0.95, 0.58 + abs(score - 0.43))
 
     return ClickbaitAnalyzeResponse(
         trace_id=trace_id,
+        input_sha256=input_sha256,
+        policy_version=POLICY_VERSION,
         label=label,
         score=score,
         confidence=round(confidence, 3),
@@ -77,6 +82,8 @@ def _heuristic_analysis(request: ClickbaitAnalyzeRequest) -> ClickbaitAnalyzeRes
         evidence=evidence,
         model_provider="heuristic",
         model_name="safe-search-rules-v1",
+        fallback_used=False,
+        decision_thresholds=DECISION_THRESHOLDS,
         requires_human_review=requires_review,
         human_review_reason=" ".join(reasons) or None,
         limitations=[
@@ -118,12 +125,28 @@ def _analyze_with_ollama(
     )
     response.raise_for_status()
     payload = response.json()
-    result = ClickbaitAnalyzeResponse.model_validate_json(payload["response"])
+    result_payload = json.loads(payload["response"])
+    result_payload.update(
+        {
+            "trace_id": fallback.trace_id,
+            "input_sha256": fallback.input_sha256,
+            "policy_version": fallback.policy_version,
+            "model_provider": "ollama",
+            "model_name": model,
+            "fallback_used": False,
+            "decision_thresholds": fallback.decision_thresholds,
+        }
+    )
+    result = ClickbaitAnalyzeResponse.model_validate(result_payload)
     return result.model_copy(
         update={
             "trace_id": fallback.trace_id,
+            "input_sha256": fallback.input_sha256,
+            "policy_version": fallback.policy_version,
             "model_provider": "ollama",
             "model_name": model,
+            "fallback_used": False,
+            "decision_thresholds": fallback.decision_thresholds,
         }
     )
 
@@ -138,6 +161,7 @@ def analyze_clickbait(request: ClickbaitAnalyzeRequest) -> ClickbaitAnalyzeRespo
     except (httpx.HTTPError, KeyError, ValueError):
         return fallback.model_copy(
             update={
+                "fallback_used": True,
                 "limitations": fallback.limitations
                 + ["Ollama 연결 또는 응답 검증에 실패해 규칙 기반 분석으로 대체했습니다."]
             }

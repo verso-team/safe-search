@@ -58,6 +58,8 @@ export async function analyzeSafety(text: string): Promise<AnalysisResult> {
 
 interface ClickbaitResponse {
   trace_id: string;
+  input_sha256: string;
+  policy_version: string;
   label: ClickbaitResult["label"];
   score: number;
   confidence: number;
@@ -65,6 +67,8 @@ interface ClickbaitResponse {
   evidence: ClickbaitResult["evidence"];
   model_provider: ClickbaitResult["modelProvider"];
   model_name: string;
+  fallback_used: boolean;
+  decision_thresholds: Record<string, number>;
   requires_human_review: boolean;
   human_review_reason?: string;
   limitations: string[];
@@ -84,6 +88,8 @@ export async function analyzeClickbait(title: string): Promise<ClickbaitResult> 
   const data = (await response.json()) as ClickbaitResponse;
   return {
     traceId: data.trace_id,
+    inputSha256: data.input_sha256,
+    policyVersion: data.policy_version,
     label: data.label,
     score: data.score,
     confidence: data.confidence,
@@ -91,6 +97,8 @@ export async function analyzeClickbait(title: string): Promise<ClickbaitResult> 
     evidence: data.evidence,
     modelProvider: data.model_provider,
     modelName: data.model_name,
+    fallbackUsed: data.fallback_used,
+    decisionThresholds: data.decision_thresholds,
     requiresHumanReview: data.requires_human_review,
     humanReviewReason: data.human_review_reason,
     limitations: data.limitations,

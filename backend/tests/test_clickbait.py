@@ -18,6 +18,10 @@ def test_clickbait_analysis_returns_evidence_and_trace():
     assert result["score"] >= 0.45
     assert result["model_provider"] == "heuristic"
     assert len(result["trace_id"]) == 16
+    assert len(result["input_sha256"]) == 64
+    assert result["policy_version"] == "clickbait-policy-2026.07.30-v2"
+    assert result["fallback_used"] is False
+    assert result["decision_thresholds"]["clickbait"] == 0.45
     assert len(result["evidence"]) >= 3
 
 

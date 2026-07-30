@@ -17,6 +17,8 @@ class ClickbaitEvidence(BaseModel):
 
 class ClickbaitAnalyzeResponse(BaseModel):
     trace_id: str
+    input_sha256: str
+    policy_version: str
     label: Literal["normal", "suspicious", "clickbait"]
     score: float = Field(ge=0, le=1)
     confidence: float = Field(ge=0, le=1)
@@ -24,7 +26,8 @@ class ClickbaitAnalyzeResponse(BaseModel):
     evidence: list[ClickbaitEvidence]
     model_provider: Literal["heuristic", "ollama", "skax"]
     model_name: str
+    fallback_used: bool = False
+    decision_thresholds: dict[str, float]
     requires_human_review: bool
     human_review_reason: str | None = None
     limitations: list[str]
-

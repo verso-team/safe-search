@@ -1,10 +1,11 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-07-30T14:40:57.936378+00:00",
+  "generated_at": "2026-07-30T14:43:46.102555+00:00",
   "dataset": "data/evaluation/clickbait-seed.jsonl",
   "dataset_sha256": "7ed51d192df66b251282b95eb6a65774a4c23f3b15788d10a060f35b611ee7f9",
   "model_provider": "heuristic",
   "model_name": "safe-search-rules-v1",
+  "policy_version": "clickbait-policy-2026.07.30-v2",
   "sample_count": 12,
   "accuracy": 1.0,
   "human_review_rate": 0.5,
@@ -33,6 +34,8 @@
       "score": 0.71,
       "requires_human_review": false,
       "trace_id": "f75c04fe9b818a2e",
+      "input_sha256": "f75c04fe9b818a2e86bd40cb42d24c20267f371907aee9e9d6ab3e19df7a4b66",
+      "policy_version": "clickbait-policy-2026.07.30-v2",
       "evidence": [
         {
           "indicator": "과도한 감정 유발 표현",
@@ -58,6 +61,8 @@
       "score": 0.75,
       "requires_human_review": false,
       "trace_id": "9aba8fb55077e052",
+      "input_sha256": "9aba8fb55077e0522b44cd14d1ee7bb347a018d3fa91f89bb35b3897f7017afe",
+      "policy_version": "clickbait-policy-2026.07.30-v2",
       "evidence": [
         {
           "indicator": "놀라움과 권위를 이용한 호기심 유발",
@@ -83,6 +88,8 @@
       "score": 0.57,
       "requires_human_review": false,
       "trace_id": "da95eb849675ac9c",
+      "input_sha256": "da95eb849675ac9c3ea713733e42a218c43a020719a37e0260fd74d39d66c293",
+      "policy_version": "clickbait-policy-2026.07.30-v2",
       "evidence": [
         {
           "indicator": "단정적·절대적 표현",
@@ -108,6 +115,8 @@
       "score": 0.47,
       "requires_human_review": true,
       "trace_id": "4a4f9e4bd5a7563a",
+      "input_sha256": "4a4f9e4bd5a7563aad48fb3e3c55cbbb18013231b46993476b103588fb8b3b40",
+      "policy_version": "clickbait-policy-2026.07.30-v2",
       "evidence": [
         {
           "indicator": "과도한 감정 유발 표현",
@@ -128,6 +137,8 @@
       "score": 0.05,
       "requires_human_review": false,
       "trace_id": "a33a42ec58164cb0",
+      "input_sha256": "a33a42ec58164cb0e5d5dc7330645381f894be69c83f02602fb4c223c5de363e",
+      "policy_version": "clickbait-policy-2026.07.30-v2",
       "evidence": []
     },
     {
@@ -137,6 +148,8 @@
       "score": 0.05,
       "requires_human_review": false,
       "trace_id": "9e1efe05674e521a",
+      "input_sha256": "9e1efe05674e521a5c4f0acdabb11396f87407194d359818a63d0dbc01817615",
+      "policy_version": "clickbait-policy-2026.07.30-v2",
       "evidence": []
     },
     {
@@ -146,6 +159,8 @@
       "score": 0.05,
       "requires_human_review": false,
       "trace_id": "9611e35d2a55dd89",
+      "input_sha256": "9611e35d2a55dd89472d3c46e07d235741cdd2e945f75bfd828b944df8ba5674",
+      "policy_version": "clickbait-policy-2026.07.30-v2",
       "evidence": []
     },
     {
@@ -155,6 +170,8 @@
       "score": 0.05,
       "requires_human_review": true,
       "trace_id": "5529b9b11a3f73e4",
+      "input_sha256": "5529b9b11a3f73e42983d790877cee9887bf3169d6f1a030266e6113c1e6b3db",
+      "policy_version": "clickbait-policy-2026.07.30-v2",
       "evidence": []
     },
     {
@@ -164,6 +181,8 @@
       "score": 0.29,
       "requires_human_review": true,
       "trace_id": "5b202a17e0d25dbc",
+      "input_sha256": "5b202a17e0d25dbc8ca5d6fdda372d14cc42ec8f14f32cc780666bd5b4d71875",
+      "policy_version": "clickbait-policy-2026.07.30-v2",
       "evidence": [
         {
           "indicator": "즉각적인 클릭을 유도하는 표현",
@@ -179,6 +198,8 @@
       "score": 0.29,
       "requires_human_review": true,
       "trace_id": "556576a088568e65",
+      "input_sha256": "556576a088568e65916913bd00edb4d91cc357d4ab303029724e6758d7deb38a",
+      "policy_version": "clickbait-policy-2026.07.30-v2",
       "evidence": [
         {
           "indicator": "놀라움과 권위를 이용한 호기심 유발",
@@ -194,6 +215,8 @@
       "score": 0.29,
       "requires_human_review": true,
       "trace_id": "4e8385ebbbaf7e82",
+      "input_sha256": "4e8385ebbbaf7e820facc3f58f57026364fa53a1cd1446997ca27dedde693e29",
+      "policy_version": "clickbait-policy-2026.07.30-v2",
       "evidence": [
         {
           "indicator": "목록·시간을 이용한 과장형 표현",
@@ -209,6 +232,8 @@
       "score": 0.29,
       "requires_human_review": true,
       "trace_id": "888ce2a0030af47d",
+      "input_sha256": "888ce2a0030af47db3f4187b6f4efbb079681c016a22bf57431636a0ad50c93d",
+      "policy_version": "clickbait-policy-2026.07.30-v2",
       "evidence": [
         {
           "indicator": "즉각적인 클릭을 유도하는 표현",

@@ -8,6 +8,8 @@ export interface ClickbaitEvidence {
 
 export interface ClickbaitResult {
   traceId: string;
+  inputSha256: string;
+  policyVersion: string;
   label: ClickbaitLabel;
   score: number;
   confidence: number;
@@ -15,6 +17,8 @@ export interface ClickbaitResult {
   evidence: ClickbaitEvidence[];
   modelProvider: "heuristic" | "ollama" | "skax";
   modelName: string;
+  fallbackUsed: boolean;
+  decisionThresholds: Record<string, number>;
   requiresHumanReview: boolean;
   humanReviewReason?: string;
   limitations: string[];

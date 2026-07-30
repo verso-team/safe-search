@@ -42,6 +42,8 @@ def main() -> None:
                 "score": result.score,
                 "requires_human_review": result.requires_human_review,
                 "trace_id": result.trace_id,
+                "input_sha256": result.input_sha256,
+                "policy_version": result.policy_version,
                 "evidence": [item.model_dump() for item in result.evidence],
             }
         )
@@ -69,6 +71,7 @@ def main() -> None:
             "dataset_sha256": sha256(DATASET.read_bytes()).hexdigest(),
             "model_provider": "heuristic",
             "model_name": "safe-search-rules-v1",
+            "policy_version": predictions[0]["policy_version"] if predictions else None,
             "sample_count": len(records),
             "accuracy": correct / len(records),
             "human_review_rate": review_count / len(records),

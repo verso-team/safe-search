@@ -195,7 +195,11 @@ function ResultView({
           <div className="confidence">
             <div><span>분석 신뢰도</span><strong>{confidencePercent}%</strong></div>
             <progress value={result.confidence} max={1} />
-            <small>모델: {result.modelProvider} / {result.modelName} · 추적 ID: {result.traceId}</small>
+            <small>
+              모델: {result.modelProvider} / {result.modelName} · 정책: {result.policyVersion}
+              <br />추적 ID: {result.traceId} · 입력 해시: {result.inputSha256.slice(0, 20)}…
+              {result.fallbackUsed && <><br />로컬 모델 오류로 기준선 폴백을 사용했습니다.</>}
+            </small>
           </div>
         </div>
       </section>
