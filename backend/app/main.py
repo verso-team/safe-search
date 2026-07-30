@@ -1,7 +1,10 @@
 import os
+from pathlib import Path
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 
 from app.schemas.analysis import AnalyzeRequest, AnalyzeResponse
 from app.services.mock_analysis import analyze_safely
@@ -35,3 +38,14 @@ def health_check():
 def analyze(request: AnalyzeRequest) -> AnalyzeResponse:
     """Mock 기반 구조화 분석. 실제 AI 연결 전 UX 계약을 고정한다."""
     return analyze_safely(request.text)
+
+
+frontend_dist = Path(__file__).resolve().parents[2] / "frontend" / "dist"
+assets_dir = frontend_dist / "assets"
+
+if assets_dir.is_dir():
+    app.mount("/assets", StaticFiles(directory=assets_dir), name="frontend-assets")
+
+    @app.get("/", include_in_schema=False)
+    def frontend_index() -> FileResponse:
+        return FileResponse(frontend_dist / "index.html")
