@@ -1,4 +1,5 @@
 import { FormEvent, ReactNode, useState } from "react";
+import nasumiAi from "./assets/nasumi-ai.png";
 import { analyzeSafety } from "./lib/api";
 import type { AnalysisResult, RiskLevel } from "./types/analysis";
 
@@ -64,7 +65,11 @@ export function App() {
               </div>
             </div>
             <div className="nasumi-panel">
-              <div className="nasumi-avatar large" aria-label="나섬이">나</div>
+              <img
+                className="nasumi-character large"
+                src={nasumiAi}
+                alt="AI 안전 안내 마스코트 나섬이"
+              />
               <p><strong>나섬이가 안내할게요.</strong><br />필요한 정보부터 차근차근 확인해요.</p>
             </div>
           </section>
@@ -141,7 +146,11 @@ function ResultView({
       )}
 
       <div className="nasumi-guide compact">
-        <div className="nasumi-avatar" aria-label="나섬이">나</div>
+        <img
+          className="nasumi-character"
+          src={nasumiAi}
+          alt="AI 안전 안내 마스코트 나섬이"
+        />
         <p>{result.emotionalSupportMessage}</p>
       </div>
 

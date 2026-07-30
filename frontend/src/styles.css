@@ -42,8 +42,8 @@ h1 { margin: 0; color: #102f56; font-size: clamp(34px, 4vw, 48px); line-height: 
 .nasumi-panel { display: flex; align-items: center; gap: 16px; padding: 22px; border-radius: 14px; background: rgba(255,255,255,.8); box-shadow: 0 8px 28px rgba(22,76,134,.08); }
 .nasumi-panel p { margin: 0; color: #344b64; line-height: 1.65; }
 .nasumi-panel strong { color: var(--blue-dark); }
-.nasumi-avatar { flex: 0 0 44px; width: 44px; height: 44px; display: grid; place-items: center; border-radius: 50%; color: #fff; background: var(--blue); font-weight: 900; }
-.nasumi-avatar.large { flex-basis: 64px; width: 64px; height: 64px; font-size: 22px; }
+.nasumi-character { flex: 0 0 76px; width: 76px; height: 76px; object-fit: contain; filter: drop-shadow(0 8px 12px rgba(15, 58, 105, .14)); }
+.nasumi-character.large { flex-basis: 150px; width: 150px; height: 174px; margin: -38px 0 -24px -12px; }
 
 .situation-form { margin-top: 26px; padding: 30px 34px; background: #fff; border: 1px solid #cfd8e3; border-radius: 16px; box-shadow: 0 6px 22px rgba(32,55,83,.06); }
 .form-title { display: flex; align-items: flex-start; gap: 14px; }
@@ -114,6 +114,7 @@ textarea::placeholder { color: #8793a1; }
   .site-header nav, .header-help { display: none; }
   .public-hero { grid-template-columns: 1fr; gap: 22px; padding: 28px; }
   .nasumi-panel { max-width: 460px; }
+  .nasumi-character.large { flex-basis: 126px; width: 126px; height: 146px; margin: -28px 0 -18px -8px; }
   .quick-grid { grid-template-columns: repeat(2, 1fr); }
   .quick-grid article:nth-child(2) { border-right: 0; }
   .quick-grid article:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
@@ -131,6 +132,8 @@ textarea::placeholder { color: #8793a1; }
   h1 { font-size: 34px; }
   .lead { font-size: 15px; }
   .service-points { display: grid; gap: 7px; }
+  .nasumi-panel { align-items: center; padding: 18px 16px; }
+  .nasumi-character.large { flex-basis: 102px; width: 102px; height: 120px; margin: -20px 0 -12px -6px; }
   .situation-form { padding: 22px 18px; }
   .search-input-wrap { grid-template-columns: 1fr; }
   .search-input-wrap button { min-height: 48px; }
