@@ -1,4 +1,0 @@
-# Monolithic legacy demo exported as a single HTML artifact.
-# Keep it runnable, but exclude it from repository language statistics.
-frontend/index.html linguist-generated=true
-
