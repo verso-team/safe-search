@@ -31,49 +31,90 @@ export function App() {
 
   return (
     <main className="app-shell">
+      <div className="official-bar">
+        <div><span className="flag-mark">태극</span> 이 서비스는 디지털 범죄 피해 지원을 위한 공익 프로젝트입니다.</div>
+      </div>
       <header className="site-header">
         <a className="brand" href="/" aria-label="SAFE SEARCH 홈">
           <span className="brand-mark">S</span>
-          SAFE:SEARCH
+          <span><strong>SAFE:SEARCH</strong><small>피해자 안전정보 안내</small></span>
         </a>
-        <span className="header-caption">AI Safety Guide</span>
+        <nav aria-label="주요 메뉴">
+          <a href="#analysis">안전 분석</a>
+          <a href="#quick-services">피해 대응</a>
+          <a href="#official-help">공식기관</a>
+        </nav>
+        <button className="header-help" type="button">이용안내</button>
       </header>
 
       {!result ? (
         <section className="input-page">
-          <div className="eyebrow">디지털 범죄 피해 지원</div>
-          <h1>지금 필요한 안전한 다음 행동을 함께 찾습니다.</h1>
-          <p className="lead">
-            범죄 여부를 단정하지 않고, 위험 신호와 정서 상태를 확인해 검증된 지원
-            경로를 안내합니다.
-          </p>
-
-          <div className="nasumi-guide">
-            <div className="nasumi-avatar" aria-label="나섬이">나</div>
-            <p>당황하지 않아도 괜찮아요.<br />필요한 것부터 하나씩 확인해볼게요.</p>
-          </div>
+          <section className="public-hero" id="analysis">
+            <div className="hero-copy">
+              <div className="eyebrow">디지털 범죄 피해 지원</div>
+              <h1>혼자 판단하지 않아도 됩니다.</h1>
+              <p className="lead">
+                현재 상황을 알려주시면 위험 신호를 확인하고, 지금 필요한 대응과
+                검증된 공식기관을 순서대로 안내합니다.
+              </p>
+              <div className="service-points">
+                <span>✓ 개인정보 최소 수집</span>
+                <span>✓ 공식기관 정보 우선</span>
+                <span>✓ 필요 시 전문가 검토</span>
+              </div>
+            </div>
+            <div className="nasumi-panel">
+              <div className="nasumi-avatar large" aria-label="나섬이">나</div>
+              <p><strong>나섬이가 안내할게요.</strong><br />필요한 정보부터 차근차근 확인해요.</p>
+            </div>
+          </section>
 
           <form className="situation-form" onSubmit={handleSubmit}>
-            <label htmlFor="situation">어떤 상황인지 알려주세요</label>
-            <p className="field-hint">이름, 연락처, 계좌번호 같은 개인정보는 적지 않아도 됩니다.</p>
-            <textarea
-              id="situation"
-              value={input}
-              onChange={(event) => setInput(event.target.value)}
-              placeholder="예: 영상이 퍼지고 있는데 어디로 신고해야 할지 모르겠어요."
-              maxLength={5000}
-              rows={7}
-            />
-            <div className="form-footer">
-              <span>{input.length.toLocaleString()} / 5,000</span>
+            <div className="form-title">
+              <span className="step-number">1</span>
+              <div>
+                <label htmlFor="situation">피해 상황 안전 분석</label>
+                <p className="field-hint">상황을 설명하면 필요한 지원을 한 번에 찾아드립니다.</p>
+              </div>
+            </div>
+            <div className="search-input-wrap">
+              <textarea
+                id="situation"
+                value={input}
+                onChange={(event) => setInput(event.target.value)}
+                placeholder="예: 영상이 퍼지고 있는데 어디로 신고해야 할지 모르겠어요."
+                maxLength={5000}
+                rows={5}
+              />
               <button type="submit" disabled={!input.trim() || isLoading}>
-                {isLoading ? "안전 신호를 확인하고 있어요…" : "안전하게 분석하기"}
+                {isLoading ? "분석 중…" : "분석하기"}
               </button>
+            </div>
+            <div className="form-meta">
+              <p>이름, 연락처, 계좌번호 등 개인정보는 입력하지 마세요.</p>
+              <span>{input.length.toLocaleString()} / 5,000</span>
             </div>
             {error && <p className="error-message" role="alert">{error}</p>}
           </form>
 
-          <p className="emergency-note">즉각적인 생명·신체 위험이 있다면 112에 먼저 연락하세요.</p>
+          <section className="quick-services" id="quick-services">
+            <div className="section-heading">
+              <div><span>자주 찾는 피해 대응</span><h2>지금 바로 확인하세요</h2></div>
+              <small>상황에 맞는 안전한 대응 원칙입니다.</small>
+            </div>
+            <div className="quick-grid">
+              <article><span className="quick-icon">112</span><strong>긴급 신고</strong><p>신체 위험이 있다면 안전한 장소로 이동 후 신고</p></article>
+              <article><span className="quick-icon">01</span><strong>증거 보존</strong><p>대화, 계정, URL, 송금 내역을 삭제하지 않고 보존</p></article>
+              <article><span className="quick-icon">02</span><strong>추가 피해 차단</strong><p>추가 송금이나 사진·개인정보 요구에 응하지 않기</p></article>
+              <article id="official-help"><span className="quick-icon">03</span><strong>공식기관 상담</strong><p>경찰청·KISA·피해자지원센터로 안전하게 연결</p></article>
+            </div>
+          </section>
+
+          <div className="emergency-banner">
+            <strong>긴급한 도움이 필요하신가요?</strong>
+            <span>즉각적인 생명·신체 위험이 있다면 분석보다 112 신고가 우선입니다.</span>
+            <a href="tel:112">112 전화하기</a>
+          </div>
         </section>
       ) : (
         <ResultView result={result} onReset={() => setResult(null)} />
