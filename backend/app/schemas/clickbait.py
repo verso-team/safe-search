@@ -55,3 +55,17 @@ class HumanReviewSummary(BaseModel):
     disagreement_count: int
     agreement_rate: float = Field(ge=0, le=1)
     final_label_counts: dict[str, int]
+
+
+class TrustOverview(BaseModel):
+    policy_version: str
+    model_name: str
+    model_provider: str
+    baseline_sample_count: int
+    baseline_accuracy: float = Field(ge=0, le=1)
+    baseline_human_review_rate: float = Field(ge=0, le=1)
+    human_reviews: HumanReviewSummary
+    evidence_generated_at: str | None = None
+    evidence_dataset_sha256: str | None = None
+    status: Literal["ready", "needs_evidence"]
+    cautions: list[str]

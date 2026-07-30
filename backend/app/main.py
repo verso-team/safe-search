@@ -13,9 +13,11 @@ from app.schemas.clickbait import (
     HumanReviewRequest,
     HumanReviewResponse,
     HumanReviewSummary,
+    TrustOverview,
 )
 from app.services.clickbait_analysis import analyze_clickbait
 from app.services.human_review import record_human_review, summarize_human_reviews
+from app.services.trust_overview import get_trust_overview
 from app.services.mock_analysis import analyze_safely
 
 app = FastAPI(title="SAFE:SEARCH API", version="0.1.0")
@@ -65,6 +67,12 @@ def create_human_review(request: HumanReviewRequest) -> HumanReviewResponse:
 def get_human_review_summary() -> HumanReviewSummary:
     """개별 원문을 노출하지 않고 인간 검토 집계만 반환한다."""
     return summarize_human_reviews()
+
+
+@app.get("/api/v1/trust/overview", response_model=TrustOverview)
+def trust_overview() -> TrustOverview:
+    """기준선 Evidence와 인간 검토 집계를 결합한 운영 지표를 반환한다."""
+    return get_trust_overview()
 
 
 frontend_dist = Path(__file__).resolve().parents[2] / "frontend" / "dist"

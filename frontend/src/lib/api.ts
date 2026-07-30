@@ -5,7 +5,7 @@ import type {
   RiskLevel,
   UserIntent,
 } from "../types/analysis";
-import type { ClickbaitResult } from "../types/clickbait";
+import type { ClickbaitResult, TrustOverview } from "../types/clickbait";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "";
 
@@ -133,5 +133,30 @@ export async function submitHumanReview(
   return {
     reviewId: data.review_id,
     disagreesWithAi: data.disagrees_with_ai,
+  };
+}
+
+export async function getTrustOverview(): Promise<TrustOverview> {
+  const response = await fetch(`${API_BASE_URL}/api/v1/trust/overview`);
+  if (!response.ok) throw new Error("신뢰성 지표를 불러오지 못했습니다.");
+  const data = await response.json();
+  return {
+    policyVersion: data.policy_version,
+    modelName: data.model_name,
+    modelProvider: data.model_provider,
+    baselineSampleCount: data.baseline_sample_count,
+    baselineAccuracy: data.baseline_accuracy,
+    baselineHumanReviewRate: data.baseline_human_review_rate,
+    humanReviews: {
+      total: data.human_reviews.total,
+      agreementCount: data.human_reviews.agreement_count,
+      disagreementCount: data.human_reviews.disagreement_count,
+      agreementRate: data.human_reviews.agreement_rate,
+      finalLabelCounts: data.human_reviews.final_label_counts,
+    },
+    evidenceGeneratedAt: data.evidence_generated_at,
+    evidenceDatasetSha256: data.evidence_dataset_sha256,
+    status: data.status,
+    cautions: data.cautions,
   };
 }

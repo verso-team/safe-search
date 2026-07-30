@@ -1,7 +1,7 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import nasumiAi from "./assets/nasumi-ai.png";
-import { analyzeClickbait, submitHumanReview } from "./lib/api";
-import type { ClickbaitLabel, ClickbaitResult } from "./types/clickbait";
+import { analyzeClickbait, getTrustOverview, submitHumanReview } from "./lib/api";
+import type { ClickbaitLabel, ClickbaitResult, TrustOverview } from "./types/clickbait";
 
 const clickbaitLabels: Record<ClickbaitLabel, string> = {
   normal: "일반",
@@ -14,6 +14,11 @@ export function App() {
   const [result, setResult] = useState<ClickbaitResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const [trust, setTrust] = useState<TrustOverview | null>(null);
+
+  useEffect(() => {
+    getTrustOverview().then(setTrust).catch(() => setTrust(null));
+  }, []);
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
@@ -135,6 +140,30 @@ export function App() {
               <div><span className="recent-icon lock">▣</span><strong>연예 뉴스 과장 표현</strong><time>11:20</time><b className="reviewing">의심</b></div>
               <div><span className="recent-icon search">⌕</span><strong>투자 정보 홍보 제목</strong><time>09:10</time><b className="reviewing">검토 중</b></div>
             </div>
+          </section>
+
+          <section className="trust-dashboard" id="trust-dashboard">
+            <div className="section-heading">
+              <div><span>ASSURANCE DASHBOARD</span><h2>AI 신뢰성 현황</h2></div>
+              <small>{trust?.policyVersion ?? "지표 불러오는 중"}</small>
+            </div>
+            {trust ? (
+              <>
+                <div className="trust-metrics">
+                  <article><span>기준선 정확도</span><strong>{Math.round(trust.baselineAccuracy * 100)}%</strong><small>기능 검증 {trust.baselineSampleCount}건 기준</small></article>
+                  <article><span>인간 검토 전환율</span><strong>{Math.round(trust.baselineHumanReviewRate * 100)}%</strong><small>경계·저문맥 사례 자동 전환</small></article>
+                  <article><span>AI-사람 동의율</span><strong>{trust.humanReviews.total ? `${Math.round(trust.humanReviews.agreementRate * 100)}%` : "—"}</strong><small>누적 인간 검토 {trust.humanReviews.total}건</small></article>
+                  <article><span>Evidence 상태</span><strong className={trust.status}>{trust.status === "ready" ? "준비됨" : "필요"}</strong><small>{trust.modelProvider} · {trust.modelName}</small></article>
+                </div>
+                <div className="trust-footnote">
+                  <strong>해석 주의</strong>
+                  <span>{trust.cautions[0] ?? "운영 데이터가 쌓이면 지표를 다시 검증합니다."}</span>
+                  {trust.evidenceDatasetSha256 && <code>dataset {trust.evidenceDatasetSha256.slice(0, 16)}…</code>}
+                </div>
+              </>
+            ) : (
+              <div className="trust-empty">백엔드 서버를 재시작하면 최신 신뢰성 지표가 표시됩니다.</div>
+            )}
           </section>
 
           <div className="emergency-banner">

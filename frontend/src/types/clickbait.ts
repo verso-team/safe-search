@@ -23,3 +23,23 @@ export interface ClickbaitResult {
   humanReviewReason?: string;
   limitations: string[];
 }
+
+export interface TrustOverview {
+  policyVersion: string;
+  modelName: string;
+  modelProvider: string;
+  baselineSampleCount: number;
+  baselineAccuracy: number;
+  baselineHumanReviewRate: number;
+  humanReviews: {
+    total: number;
+    agreementCount: number;
+    disagreementCount: number;
+    agreementRate: number;
+    finalLabelCounts: Record<string, number>;
+  };
+  evidenceGeneratedAt?: string;
+  evidenceDatasetSha256?: string;
+  status: "ready" | "needs_evidence";
+  cautions: string[];
+}
