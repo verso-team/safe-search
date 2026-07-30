@@ -114,6 +114,19 @@ textarea::placeholder { color: #8793a1; }
 .human-review.normal-result { border-left-color: #27a367; background: #effaf4; }
 .limitation-item { display: flex; gap: 10px; align-items: flex-start; padding: 14px 16px; border: 1px solid #dce4ef; border-radius: 9px; color: #46566c; background: #fff; line-height: 1.55; }
 .limitation-item span { display: grid; flex: 0 0 24px; width: 24px; height: 24px; place-items: center; border-radius: 50%; color: #8c6100; background: #fff0c7; font-weight: 900; }
+.review-workbench { padding: 24px; border: 1px solid #d9e4f4; border-radius: 16px; background: #fff; box-shadow: 0 12px 32px rgba(35, 67, 116, .07); }
+.review-workbench > div > h2 { margin: 5px 0; }
+.review-workbench > div > p { margin: 0 0 20px; color: var(--muted); line-height: 1.55; }
+.review-workbench fieldset { display: flex; gap: 9px; padding: 0; margin: 0 0 16px; border: 0; }
+.review-workbench legend { margin-bottom: 9px; color: #33445c; font-size: 13px; font-weight: 800; }
+.review-workbench fieldset label { padding: 9px 14px; border: 1px solid #d7dfeb; border-radius: 999px; color: #59687d; cursor: pointer; }
+.review-workbench fieldset label.selected { border-color: #3579ec; color: #1557b0; background: #edf4ff; font-weight: 800; }
+.review-workbench fieldset input { position: absolute; opacity: 0; pointer-events: none; }
+.review-reason { display: grid; gap: 8px; color: #33445c; font-size: 13px; font-weight: 800; }
+.review-reason textarea { min-height: 92px; border: 1px solid #d7dfeb; border-radius: 10px; }
+.review-workbench form > button { margin-top: 12px; padding: 11px 17px; border: 0; border-radius: 9px; color: #fff; background: var(--blue); font-weight: 800; cursor: pointer; }
+.review-workbench form > button:disabled { opacity: .5; cursor: not-allowed; }
+.review-success { display: grid; gap: 4px; padding: 16px; border-radius: 10px; color: #176b45; background: #eaf9f1; }
 
 @media (max-width: 820px) {
   .site-header { height: 70px; }

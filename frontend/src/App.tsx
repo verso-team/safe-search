@@ -1,6 +1,6 @@
 import { FormEvent, useState } from "react";
 import nasumiAi from "./assets/nasumi-ai.png";
-import { analyzeClickbait } from "./lib/api";
+import { analyzeClickbait, submitHumanReview } from "./lib/api";
 import type { ClickbaitLabel, ClickbaitResult } from "./types/clickbait";
 
 const clickbaitLabels: Record<ClickbaitLabel, string> = {
@@ -167,6 +167,21 @@ function ResultView({
 }) {
   const scorePercent = Math.round(result.score * 100);
   const confidencePercent = Math.round(result.confidence * 100);
+  const [finalLabel, setFinalLabel] = useState<ClickbaitLabel>(result.label);
+  const [reviewReason, setReviewReason] = useState("");
+  const [reviewStatus, setReviewStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
+
+  async function handleReview(event: FormEvent) {
+    event.preventDefault();
+    if (reviewReason.trim().length < 5) return;
+    setReviewStatus("saving");
+    try {
+      await submitHumanReview(result, finalLabel, reviewReason.trim());
+      setReviewStatus("saved");
+    } catch {
+      setReviewStatus("error");
+    }
+  }
 
   return (
     <section className="result-page">
@@ -244,6 +259,52 @@ function ResultView({
             "그래도 중요한 판단 전에는 기사 원문, 작성자, 게시 시각과 다른 출처를 함께 확인해주세요."}
         </p>
       </div>
+
+      <section className="result-section review-workbench">
+        <div>
+          <span className="meta-label">HUMAN OVERSIGHT</span>
+          <h2>AI 판단을 검토해주세요</h2>
+          <p>원문은 저장하지 않고 분류, 입력 해시와 검토 사유만 Evidence로 기록합니다.</p>
+        </div>
+        {reviewStatus === "saved" ? (
+          <div className="review-success" role="status">
+            <strong>검토 의견이 기록됐어요.</strong>
+            <span>이 기록은 모델의 동의율과 오류 사례 분석에 사용됩니다.</span>
+          </div>
+        ) : (
+          <form onSubmit={handleReview}>
+            <fieldset>
+              <legend>사람이 판단한 최종 분류</legend>
+              {(Object.keys(clickbaitLabels) as ClickbaitLabel[]).map((label) => (
+                <label key={label} className={finalLabel === label ? "selected" : ""}>
+                  <input
+                    type="radio"
+                    name="final-label"
+                    value={label}
+                    checked={finalLabel === label}
+                    onChange={() => setFinalLabel(label)}
+                  />
+                  {clickbaitLabels[label]}
+                </label>
+              ))}
+            </fieldset>
+            <label className="review-reason">
+              판단 사유
+              <textarea
+                value={reviewReason}
+                onChange={(event) => setReviewReason(event.target.value)}
+                placeholder="예: 제목이 본문보다 결과를 과장하고 있습니다."
+                maxLength={1000}
+                rows={3}
+              />
+            </label>
+            <button type="submit" disabled={reviewReason.trim().length < 5 || reviewStatus === "saving"}>
+              {reviewStatus === "saving" ? "저장 중…" : "검토 의견 기록"}
+            </button>
+            {reviewStatus === "error" && <p className="error-message">저장하지 못했습니다. 다시 시도해주세요.</p>}
+          </form>
+        )}
+      </section>
     </section>
   );
 }

@@ -104,3 +104,34 @@ export async function analyzeClickbait(title: string): Promise<ClickbaitResult> 
     limitations: data.limitations,
   };
 }
+
+export async function submitHumanReview(
+  result: ClickbaitResult,
+  finalLabel: ClickbaitResult["label"],
+  reason: string,
+): Promise<{ reviewId: string; disagreesWithAi: boolean }> {
+  const response = await fetch(`${API_BASE_URL}/api/v1/clickbait/reviews`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      trace_id: result.traceId,
+      input_sha256: result.inputSha256,
+      ai_label: result.label,
+      final_label: finalLabel,
+      reason,
+      reviewer_role: "user",
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error("검토 의견을 저장하지 못했습니다.");
+  }
+  const data = (await response.json()) as {
+    review_id: string;
+    disagrees_with_ai: boolean;
+  };
+  return {
+    reviewId: data.review_id,
+    disagreesWithAi: data.disagrees_with_ai,
+  };
+}
