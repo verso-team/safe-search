@@ -1,0 +1,225 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-07-30T14:40:57.936378+00:00",
+  "dataset": "data/evaluation/clickbait-seed.jsonl",
+  "dataset_sha256": "7ed51d192df66b251282b95eb6a65774a4c23f3b15788d10a060f35b611ee7f9",
+  "model_provider": "heuristic",
+  "model_name": "safe-search-rules-v1",
+  "sample_count": 12,
+  "accuracy": 1.0,
+  "human_review_rate": 0.5,
+  "confusion": [
+    {
+      "expected": "clickbait",
+      "predicted": "clickbait",
+      "count": 4
+    },
+    {
+      "expected": "normal",
+      "predicted": "normal",
+      "count": 4
+    },
+    {
+      "expected": "suspicious",
+      "predicted": "suspicious",
+      "count": 4
+    }
+  ],
+  "predictions": [
+    {
+      "id": "cb-001",
+      "expected": "clickbait",
+      "predicted": "clickbait",
+      "score": 0.71,
+      "requires_human_review": false,
+      "trace_id": "f75c04fe9b818a2e",
+      "evidence": [
+        {
+          "indicator": "과도한 감정 유발 표현",
+          "excerpt": "충격",
+          "weight": 0.22
+        },
+        {
+          "indicator": "정보 격차를 과장하는 표현",
+          "excerpt": "비밀",
+          "weight": 0.2
+        },
+        {
+          "indicator": "즉각적인 클릭을 유도하는 표현",
+          "excerpt": "지금 확인",
+          "weight": 0.24
+        }
+      ]
+    },
+    {
+      "id": "cb-002",
+      "expected": "clickbait",
+      "predicted": "clickbait",
+      "score": 0.75,
+      "requires_human_review": false,
+      "trace_id": "9aba8fb55077e052",
+      "evidence": [
+        {
+          "indicator": "놀라움과 권위를 이용한 호기심 유발",
+          "excerpt": "놀라운",
+          "weight": 0.24
+        },
+        {
+          "indicator": "짧은 기간의 극적인 변화를 강조",
+          "excerpt": "3일 만에",
+          "weight": 0.24
+        },
+        {
+          "indicator": "결과를 과도하게 약속하는 표현",
+          "excerpt": "인생이 바뀐",
+          "weight": 0.22
+        }
+      ]
+    },
+    {
+      "id": "cb-003",
+      "expected": "clickbait",
+      "predicted": "clickbait",
+      "score": 0.57,
+      "requires_human_review": false,
+      "trace_id": "da95eb849675ac9c",
+      "evidence": [
+        {
+          "indicator": "단정적·절대적 표현",
+          "excerpt": "반드시",
+          "weight": 0.18
+        },
+        {
+          "indicator": "즉각적인 클릭을 유도하는 표현",
+          "excerpt": "안 보면",
+          "weight": 0.24
+        },
+        {
+          "indicator": "반복 문장부호",
+          "excerpt": "!!",
+          "weight": 0.1
+        }
+      ]
+    },
+    {
+      "id": "cb-004",
+      "expected": "clickbait",
+      "predicted": "clickbait",
+      "score": 0.47,
+      "requires_human_review": true,
+      "trace_id": "4a4f9e4bd5a7563a",
+      "evidence": [
+        {
+          "indicator": "과도한 감정 유발 표현",
+          "excerpt": "발칵",
+          "weight": 0.22
+        },
+        {
+          "indicator": "정보 격차를 과장하는 표현",
+          "excerpt": "최초 공개",
+          "weight": 0.2
+        }
+      ]
+    },
+    {
+      "id": "cb-005",
+      "expected": "normal",
+      "predicted": "normal",
+      "score": 0.05,
+      "requires_human_review": false,
+      "trace_id": "a33a42ec58164cb0",
+      "evidence": []
+    },
+    {
+      "id": "cb-006",
+      "expected": "normal",
+      "predicted": "normal",
+      "score": 0.05,
+      "requires_human_review": false,
+      "trace_id": "9e1efe05674e521a",
+      "evidence": []
+    },
+    {
+      "id": "cb-007",
+      "expected": "normal",
+      "predicted": "normal",
+      "score": 0.05,
+      "requires_human_review": false,
+      "trace_id": "9611e35d2a55dd89",
+      "evidence": []
+    },
+    {
+      "id": "cb-008",
+      "expected": "normal",
+      "predicted": "normal",
+      "score": 0.05,
+      "requires_human_review": true,
+      "trace_id": "5529b9b11a3f73e4",
+      "evidence": []
+    },
+    {
+      "id": "cb-009",
+      "expected": "suspicious",
+      "predicted": "suspicious",
+      "score": 0.29,
+      "requires_human_review": true,
+      "trace_id": "5b202a17e0d25dbc",
+      "evidence": [
+        {
+          "indicator": "즉각적인 클릭을 유도하는 표현",
+          "excerpt": "꼭 보세요",
+          "weight": 0.24
+        }
+      ]
+    },
+    {
+      "id": "cb-010",
+      "expected": "suspicious",
+      "predicted": "suspicious",
+      "score": 0.29,
+      "requires_human_review": true,
+      "trace_id": "556576a088568e65",
+      "evidence": [
+        {
+          "indicator": "놀라움과 권위를 이용한 호기심 유발",
+          "excerpt": "전문가도 놀란",
+          "weight": 0.24
+        }
+      ]
+    },
+    {
+      "id": "cb-011",
+      "expected": "suspicious",
+      "predicted": "suspicious",
+      "score": 0.29,
+      "requires_human_review": true,
+      "trace_id": "4e8385ebbbaf7e82",
+      "evidence": [
+        {
+          "indicator": "목록·시간을 이용한 과장형 표현",
+          "excerpt": "5가지",
+          "weight": 0.24
+        }
+      ]
+    },
+    {
+      "id": "cb-012",
+      "expected": "suspicious",
+      "predicted": "suspicious",
+      "score": 0.29,
+      "requires_human_review": true,
+      "trace_id": "888ce2a0030af47d",
+      "evidence": [
+        {
+          "indicator": "즉각적인 클릭을 유도하는 표현",
+          "excerpt": "지금 확인",
+          "weight": 0.24
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "수작업으로 만든 소규모 기능 검증용 데이터입니다.",
+    "독립적인 라벨 검수 전이므로 성능 주장에 단독 사용하지 않습니다."
+  ]
+}

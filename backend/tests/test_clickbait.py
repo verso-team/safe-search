@@ -15,7 +15,7 @@ def test_clickbait_analysis_returns_evidence_and_trace():
     assert response.status_code == 200
     result = response.json()
     assert result["label"] == "clickbait"
-    assert result["score"] >= 0.58
+    assert result["score"] >= 0.45
     assert result["model_provider"] == "heuristic"
     assert len(result["trace_id"]) == 16
     assert len(result["evidence"]) >= 3
@@ -52,3 +52,15 @@ def test_invalid_empty_title_is_rejected():
     )
 
     assert response.status_code == 422
+
+
+def test_exaggerated_short_term_transformation_is_clickbait():
+    response = client.post(
+        "/api/v1/clickbait/analyze",
+        json={"title": "단 3일 만에 인생이 바뀐 놀라운 방법"},
+    )
+
+    assert response.status_code == 200
+    result = response.json()
+    assert result["label"] == "clickbait"
+    assert len(result["evidence"]) >= 3

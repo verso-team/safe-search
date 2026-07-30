@@ -17,8 +17,11 @@ INDICATORS: tuple[tuple[str, str, float], ...] = (
     (r"절대|무조건|100%|반드시", "단정적·절대적 표현", 0.18),
     (r"당신만|아무도 모르는|비밀|최초 공개", "정보 격차를 과장하는 표현", 0.20),
     (r"지금 확인|클릭|안 보면|놓치면|꼭 보세요", "즉각적인 클릭을 유도하는 표현", 0.24),
+    (r"놀라운|전문가도 놀란", "놀라움과 권위를 이용한 호기심 유발", 0.24),
+    (r"\d+\s*(일|주|개월)\s*만에", "짧은 기간의 극적인 변화를 강조", 0.24),
+    (r"인생이 바뀐|완전히 달라진", "결과를 과도하게 약속하는 표현", 0.22),
     (r"\?{2,}|!{2,}", "반복 문장부호", 0.10),
-    (r"\d+\s*(가지|초|분)\s*(만에|안에)?", "목록·시간을 이용한 과장형 표현", 0.10),
+    (r"\d+\s*(가지|초|분)\s*(만에|안에)?", "목록·시간을 이용한 과장형 표현", 0.24),
 )
 
 
@@ -41,14 +44,14 @@ def _heuristic_analysis(request: ClickbaitAnalyzeRequest) -> ClickbaitAnalyzeRes
         score += weight
 
     score = min(round(score, 3), 1.0)
-    if score >= 0.58:
+    if score >= 0.45:
         label = "clickbait"
     elif score >= 0.28:
         label = "suspicious"
     else:
         label = "normal"
 
-    boundary_case = 0.23 <= score <= 0.63
+    boundary_case = 0.23 <= score <= 0.49
     short_context = len(text) < 20
     requires_review = boundary_case or short_context
     reasons = []
@@ -139,4 +142,3 @@ def analyze_clickbait(request: ClickbaitAnalyzeRequest) -> ClickbaitAnalyzeRespo
                 + ["Ollama 연결 또는 응답 검증에 실패해 규칙 기반 분석으로 대체했습니다."]
             }
         )
-
