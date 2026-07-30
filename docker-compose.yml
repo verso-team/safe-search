@@ -2,27 +2,44 @@ services:
   frontend:
     image: node:20-alpine
     working_dir: /app
-    command: sh -c "echo 'Frontend scaffold ready' && sleep infinity"
+    command: sh -c "corepack enable && pnpm install && pnpm dev --host 0.0.0.0"
     volumes:
       - ./frontend:/app
+      - frontend_node_modules:/app/node_modules
     ports:
-      - "3000:3000"
+      - "5173:5173"
+    environment:
+      VITE_API_BASE_URL: http://localhost:8000
     depends_on:
-      - backend
+      backend:
+        condition: service_healthy
 
   backend:
     image: python:3.12-slim
     working_dir: /app
-    command: sh -c "echo 'Backend scaffold ready' && sleep infinity"
+    command: sh -c "pip install --no-cache-dir -r requirements.txt && uvicorn app.main:app --host 0.0.0.0 --port 8000"
     volumes:
       - ./backend:/app
     ports:
       - "8000:8000"
     environment:
       DATABASE_URL: postgresql://safe_search:safe_search@db:5432/safe_search
+      CORS_ORIGINS: http://localhost:5173,http://127.0.0.1:5173
     depends_on:
       db:
         condition: service_healthy
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')",
+        ]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 20s
 
   db:
     image: postgres:18
@@ -42,3 +59,4 @@ services:
 
 volumes:
   postgres_data:
+  frontend_node_modules:

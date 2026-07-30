@@ -8,6 +8,21 @@ SAFE:SEARCH는 디지털 범죄 피해자가 자신의 피해 상황을 입력�
 
 ---
 
+## 빠른 실행
+
+Docker가 설치된 환경에서는 다음 명령으로 프론트엔드, API, PostgreSQL을 함께
+실행할 수 있습니다.
+
+```bash
+docker compose up
+```
+
+- 사용자 화면: http://localhost:5173
+- API 문서: http://localhost:8000/docs
+- 상태 확인: http://localhost:8000/health
+
+---
+
 ## Core Flow
 
 ```text
