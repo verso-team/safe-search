@@ -49,6 +49,10 @@
 검증에 실패하면 규칙 기준선으로 자동 전환합니다. 이 경우
 `fallback_used=true`와 실패 사실을 한계 항목에 기록합니다.
 
+SKT A.X는 공개 `skt/A.X-4.0-Light` 모델을 vLLM의 OpenAI 호환 API로
+연결할 수 있습니다. `CLICKBAIT_MODEL_PROVIDER=skax`에서 연결·검증 실패 시에도
+동일한 규칙 기준선 폴백 정책을 적용합니다.
+
 ## 알려진 한계
 
 - 기사 내용의 사실 여부를 판정하지 않습니다.

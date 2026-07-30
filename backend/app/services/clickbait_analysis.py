@@ -27,6 +27,28 @@ POLICY_VERSION = "clickbait-policy-2026.07.30-v2"
 DECISION_THRESHOLDS = {"suspicious": 0.28, "clickbait": 0.45}
 
 
+def _enforce_grounded_evidence(
+    request: ClickbaitAnalyzeRequest,
+    result: ClickbaitAnalyzeResponse,
+) -> ClickbaitAnalyzeResponse:
+    source_text = f"{request.title}\n{request.body}".casefold()
+    grounded = [
+        item for item in result.evidence if item.excerpt.strip().casefold() in source_text
+    ]
+    if len(grounded) == len(result.evidence):
+        return result
+
+    return result.model_copy(
+        update={
+            "evidence": grounded,
+            "requires_human_review": True,
+            "human_review_reason": "모델이 입력에서 확인되지 않는 근거를 생성해 사람의 확인이 필요합니다.",
+            "limitations": result.limitations
+            + ["입력에서 확인되지 않은 모델 생성 근거를 제거했습니다."],
+        }
+    )
+
+
 def _heuristic_analysis(request: ClickbaitAnalyzeRequest) -> ClickbaitAnalyzeResponse:
     text = f"{request.title}\n{request.body}".strip()
     evidence: list[ClickbaitEvidence] = []
@@ -138,7 +160,7 @@ def _analyze_with_ollama(
         }
     )
     result = ClickbaitAnalyzeResponse.model_validate(result_payload)
-    return result.model_copy(
+    result = result.model_copy(
         update={
             "trace_id": fallback.trace_id,
             "input_sha256": fallback.input_sha256,
@@ -149,20 +171,103 @@ def _analyze_with_ollama(
             "decision_thresholds": fallback.decision_thresholds,
         }
     )
+    return _enforce_grounded_evidence(request, result)
+
+
+def _analyze_with_skax(
+    request: ClickbaitAnalyzeRequest,
+    fallback: ClickbaitAnalyzeResponse,
+) -> ClickbaitAnalyzeResponse:
+    base_url = os.getenv("SKAX_BASE_URL", "http://127.0.0.1:8000/v1").rstrip("/")
+    model = os.getenv("SKAX_MODEL", "skt/A.X-4.0-Light")
+    api_key = os.getenv("SKAX_API_KEY")
+    headers = {"Content-Type": "application/json"}
+    if api_key:
+        headers["Authorization"] = f"Bearer {api_key}"
+
+    prompt = {
+        "task": "한국어 뉴스 제목의 클릭베이트 여부를 JSON으로 분석하세요.",
+        "output": {
+            "label": "normal | suspicious | clickbait",
+            "score": "0~1",
+            "confidence": "0~1",
+            "summary": "짧은 한국어 설명",
+            "evidence": [
+                {"indicator": "근거 유형", "excerpt": "입력에 실제 있는 문구", "weight": "0~1"}
+            ],
+            "requires_human_review": "boolean",
+            "human_review_reason": "문자열 또는 null",
+            "limitations": ["한계"],
+        },
+        "rules": [
+            "JSON 이외의 텍스트는 출력하지 마세요.",
+            "근거 문구를 입력에 없는 내용으로 만들지 마세요.",
+            "불확실하거나 문맥이 부족하면 인간 검토를 요청하세요.",
+        ],
+        "input": request.model_dump(),
+        "baseline_signal": {
+            "score": fallback.score,
+            "evidence": [item.model_dump() for item in fallback.evidence],
+        },
+    }
+    response = httpx.post(
+        f"{base_url}/chat/completions",
+        headers=headers,
+        json={
+            "model": model,
+            "messages": [
+                {
+                    "role": "system",
+                    "content": "당신은 근거를 공개하고 불확실성을 인정하는 AI 신뢰성 분석가입니다.",
+                },
+                {"role": "user", "content": json.dumps(prompt, ensure_ascii=False)},
+            ],
+            "temperature": 0,
+            "response_format": {"type": "json_object"},
+        },
+        timeout=float(os.getenv("SKAX_TIMEOUT_SECONDS", "30")),
+    )
+    response.raise_for_status()
+    content = response.json()["choices"][0]["message"]["content"]
+    result_payload = json.loads(content)
+    result_payload.update(
+        {
+            "trace_id": fallback.trace_id,
+            "input_sha256": fallback.input_sha256,
+            "policy_version": fallback.policy_version,
+            "model_provider": "skax",
+            "model_name": model,
+            "fallback_used": False,
+            "decision_thresholds": fallback.decision_thresholds,
+        }
+    )
+    result = ClickbaitAnalyzeResponse.model_validate(result_payload)
+    return _enforce_grounded_evidence(request, result)
 
 
 def analyze_clickbait(request: ClickbaitAnalyzeRequest) -> ClickbaitAnalyzeResponse:
     fallback = _heuristic_analysis(request)
-    if os.getenv("CLICKBAIT_MODEL_PROVIDER", "heuristic").lower() != "ollama":
+    provider = os.getenv("CLICKBAIT_MODEL_PROVIDER", "heuristic").lower()
+    if provider == "heuristic":
         return fallback
 
     try:
-        return _analyze_with_ollama(request, fallback)
+        if provider == "ollama":
+            return _analyze_with_ollama(request, fallback)
+        if provider == "skax":
+            return _analyze_with_skax(request, fallback)
+        return fallback.model_copy(
+            update={
+                "fallback_used": True,
+                "limitations": fallback.limitations
+                + [f"지원하지 않는 모델 제공자 '{provider}'로 기준선을 사용했습니다."],
+            }
+        )
     except (httpx.HTTPError, KeyError, ValueError):
         return fallback.model_copy(
             update={
                 "fallback_used": True,
                 "limitations": fallback.limitations
-                + ["Ollama 연결 또는 응답 검증에 실패해 규칙 기반 분석으로 대체했습니다."]
+                + [f"{provider} 연결 또는 응답 검증에 실패해 규칙 기반 분석으로 대체했습니다."]
             }
         )
