@@ -7,6 +7,8 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
 from app.schemas.analysis import AnalyzeRequest, AnalyzeResponse
+from app.schemas.clickbait import ClickbaitAnalyzeRequest, ClickbaitAnalyzeResponse
+from app.services.clickbait_analysis import analyze_clickbait
 from app.services.mock_analysis import analyze_safely
 
 app = FastAPI(title="SAFE:SEARCH API", version="0.1.0")
@@ -38,6 +40,12 @@ def health_check():
 def analyze(request: AnalyzeRequest) -> AnalyzeResponse:
     """Mock 기반 구조화 분석. 실제 AI 연결 전 UX 계약을 고정한다."""
     return analyze_safely(request.text)
+
+
+@app.post("/api/v1/clickbait/analyze", response_model=ClickbaitAnalyzeResponse)
+def analyze_clickbait_content(request: ClickbaitAnalyzeRequest) -> ClickbaitAnalyzeResponse:
+    """클릭베이트 위험도와 재현 가능한 판단 근거를 반환한다."""
+    return analyze_clickbait(request)
 
 
 frontend_dist = Path(__file__).resolve().parents[2] / "frontend" / "dist"

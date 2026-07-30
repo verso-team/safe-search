@@ -5,6 +5,7 @@ import type {
   RiskLevel,
   UserIntent,
 } from "../types/analysis";
+import type { ClickbaitResult } from "../types/clickbait";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "";
 
@@ -52,5 +53,46 @@ export async function analyzeSafety(text: string): Promise<AnalysisResult> {
       .map(({ is_official, ...agency }) => ({ ...agency, isOfficial: is_official })),
     requiresHumanReview: data.requires_human_review,
     safetyNotice: data.safety_notice,
+  };
+}
+
+interface ClickbaitResponse {
+  trace_id: string;
+  label: ClickbaitResult["label"];
+  score: number;
+  confidence: number;
+  summary: string;
+  evidence: ClickbaitResult["evidence"];
+  model_provider: ClickbaitResult["modelProvider"];
+  model_name: string;
+  requires_human_review: boolean;
+  human_review_reason?: string;
+  limitations: string[];
+}
+
+export async function analyzeClickbait(title: string): Promise<ClickbaitResult> {
+  const response = await fetch(`${API_BASE_URL}/api/v1/clickbait/analyze`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ title }),
+  });
+
+  if (!response.ok) {
+    throw new Error("클릭베이트 분석을 완료하지 못했습니다. 잠시 후 다시 시도해주세요.");
+  }
+
+  const data = (await response.json()) as ClickbaitResponse;
+  return {
+    traceId: data.trace_id,
+    label: data.label,
+    score: data.score,
+    confidence: data.confidence,
+    summary: data.summary,
+    evidence: data.evidence,
+    modelProvider: data.model_provider,
+    modelName: data.model_name,
+    requiresHumanReview: data.requires_human_review,
+    humanReviewReason: data.human_review_reason,
+    limitations: data.limitations,
   };
 }

@@ -501,11 +501,12 @@ docs/presentation/final/
 
 담당:
 
-- UI·UX 정리
-- 화면 디자인
-- 색상 및 정보 위계 검토
-- 자료 디자인 통일
-- 화면 배치 및 시각화
+- 최종 핵심 화면 1종 검수
+- 색상·가독성에 대한 간단한 피드백
+
+> 업무 부담을 최소화하기 위해 UI 구현, 디자인 시스템, 화면 배치,
+> 다이어그램, 캡처 및 발표자료 편집은 개발팀과 콘텐츠 담당자가 수행합니다.
+> 김은솔은 새 시안을 직접 제작하지 않고 완성본 검수만 담당합니다.
 
 기본 위치:
 
@@ -518,13 +519,7 @@ docs/operations/design/
 
 ```text
 design/ui/
-design/ux/
 design/color-system/
-design/information-hierarchy/
-design/layouts/
-design/diagrams/
-design/screenshots/
-design/assets/
 design/exports/
 ```
 

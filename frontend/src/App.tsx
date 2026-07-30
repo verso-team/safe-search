@@ -1,18 +1,17 @@
-import { FormEvent, ReactNode, useState } from "react";
+import { FormEvent, useState } from "react";
 import nasumiAi from "./assets/nasumi-ai.png";
-import { analyzeSafety } from "./lib/api";
-import type { AnalysisResult, RiskLevel } from "./types/analysis";
+import { analyzeClickbait } from "./lib/api";
+import type { ClickbaitLabel, ClickbaitResult } from "./types/clickbait";
 
-const urgencyLabels: Record<RiskLevel, string> = {
-  low: "낮음",
-  medium: "주의",
-  high: "높음",
-  critical: "긴급",
+const clickbaitLabels: Record<ClickbaitLabel, string> = {
+  normal: "일반",
+  suspicious: "의심",
+  clickbait: "클릭베이트",
 };
 
 export function App() {
   const [input, setInput] = useState("");
-  const [result, setResult] = useState<AnalysisResult | null>(null);
+  const [result, setResult] = useState<ClickbaitResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -22,7 +21,7 @@ export function App() {
     setIsLoading(true);
     setError("");
     try {
-      setResult(await analyzeSafety(input.trim()));
+      setResult(await analyzeClickbait(input.trim()));
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : "분석 중 오류가 발생했습니다.");
     } finally {
@@ -52,15 +51,15 @@ export function App() {
         <section className="input-page">
           <section className="public-hero" id="analysis">
             <div className="hero-copy">
-              <div className="eyebrow">AI와 함께, 더 안전한 선택</div>
-              <h1>나섬이와 함께<br /><em>안전한 검색</em> 시작해요</h1>
+              <div className="eyebrow">TRUSTWORTHY AI · CLICKBAIT CHECK</div>
+              <h1>나섬이와 함께<br /><em>낚시성 제목</em> 확인해요</h1>
               <p className="lead">
-                궁금한 상황을 입력하면 필요한 정보와 도움을 쉽고 안전하게 안내해드릴게요.
+                뉴스 제목을 입력하면 클릭 유도 표현과 판단 근거를 투명하게 알려드릴게요.
               </p>
               <div className="service-points">
-                <span>✓ 개인정보 보호</span>
-                <span>✓ 공식기관 정보 우선</span>
-                <span>✓ 24시간 AI 안내</span>
+                <span>✓ 판단 근거 공개</span>
+                <span>✓ 불확실성 표시</span>
+                <span>✓ 필요 시 인간 검토</span>
               </div>
             </div>
             <div className="nasumi-panel">
@@ -69,7 +68,7 @@ export function App() {
                 src={nasumiAi}
                 alt="AI 안전 안내 마스코트 나섬이"
               />
-              <p><strong>무엇이 궁금한가요?</strong><br />나섬이가 차근차근 함께 확인할게요.</p>
+              <p><strong>이 제목, 믿어도 될까요?</strong><br />나섬이가 근거와 함께 확인할게요.</p>
             </div>
           </section>
 
@@ -77,8 +76,8 @@ export function App() {
             <div className="form-title">
               <span className="analysis-symbol" aria-hidden="true">⌕</span>
               <div>
-                <label htmlFor="situation">도움이 필요해요</label>
-                <p className="field-hint">상황을 입력하고 AI 안전 분석을 받아보세요.</p>
+                <label htmlFor="situation">뉴스 제목을 확인해요</label>
+                <p className="field-hint">제목을 입력하고 클릭베이트 가능성을 분석해보세요.</p>
               </div>
             </div>
             <div className="search-input-wrap">
@@ -86,12 +85,12 @@ export function App() {
                 id="situation"
                 value={input}
                 onChange={(event) => setInput(event.target.value)}
-                placeholder="예: 모르는 사람이 사진을 보내라고 협박해요. 어떻게 해야 하나요?"
+                placeholder="예: 충격! 아무도 몰랐던 비밀, 지금 확인하세요"
                 maxLength={5000}
                 rows={5}
               />
               <button type="submit" disabled={!input.trim() || isLoading}>
-                {isLoading ? "분석 중…" : "안전 분석하기 →"}
+                {isLoading ? "분석 중…" : "제목 분석하기 →"}
               </button>
             </div>
             <div className="form-meta">
@@ -107,9 +106,9 @@ export function App() {
               <small>필요한 도움으로 바로 이동하세요.</small>
             </div>
             <div className="quick-grid">
-              <article><span className="quick-icon shield">◆</span><strong>안전 검색</strong><p>위험한 정보를 걸러내고 확인해요</p></article>
-              <article><span className="quick-icon counsel">◎</span><strong>상담·신고 안내</strong><p>내 상황은 어디에 문의할까요?</p></article>
-              <article id="official-help"><span className="quick-icon agency">▦</span><strong>공식기관 정보</strong><p>검증된 기관과 바로 연결해요</p></article>
+              <article><span className="quick-icon shield">◆</span><strong>제목 분석</strong><p>과장과 클릭 유도 표현을 확인해요</p></article>
+              <article><span className="quick-icon counsel">◎</span><strong>판단 근거</strong><p>AI가 본 표현과 가중치를 공개해요</p></article>
+              <article id="official-help"><span className="quick-icon agency">▦</span><strong>인간 검토</strong><p>애매한 결과는 사람이 다시 확인해요</p></article>
             </div>
           </section>
 
@@ -118,7 +117,7 @@ export function App() {
               <div><span>SAFE KEYWORDS</span><h2>추천 검색어</h2></div>
             </div>
             <div className="suggestion-grid">
-              {["불법촬영 피해 대응 방법", "디지털 성범죄 신고 절차", "사이버 스토킹 대처 방법", "온라인 사기 피해 지원"].map((query) => (
+              {["충격! 지금 안 보면 후회합니다", "서울시 폭염 대응 계획 발표", "단 3일 만에 달라진 놀라운 비밀", "정부, 내년도 예산안 공개"].map((query) => (
                 <button key={query} type="button" onClick={() => setInput(query)}>
                   <span aria-hidden="true">⌕</span>{query}
                 </button>
@@ -132,16 +131,16 @@ export function App() {
               <button type="button">전체 보기 ›</button>
             </div>
             <div className="recent-list">
-              <div><span className="recent-icon">▤</span><strong>디지털 성범죄 관련 상담</strong><time>15:30</time><b>완료</b></div>
-              <div><span className="recent-icon lock">▣</span><strong>불법 촬영 의심 상황</strong><time>11:20</time><b>완료</b></div>
-              <div><span className="recent-icon search">⌕</span><strong>온라인 스토킹 피해</strong><time>09:10</time><b className="reviewing">검토 중</b></div>
+              <div><span className="recent-icon">▤</span><strong>건강 정보 기사 제목</strong><time>15:30</time><b>일반</b></div>
+              <div><span className="recent-icon lock">▣</span><strong>연예 뉴스 과장 표현</strong><time>11:20</time><b className="reviewing">의심</b></div>
+              <div><span className="recent-icon search">⌕</span><strong>투자 정보 홍보 제목</strong><time>09:10</time><b className="reviewing">검토 중</b></div>
             </div>
           </section>
 
           <div className="emergency-banner">
-            <span className="phone-icon">☎</span>
-            <div><strong>지금 바로 도움 요청</strong><span>긴급 상황 시 112로 연결됩니다.</span></div>
-            <a href="tel:112" aria-label="112 전화하기">→</a>
+            <span className="phone-icon">✓</span>
+            <div><strong>결과보다 근거를 확인하세요</strong><span>AI 판단은 참고 자료이며 중요한 결정은 사람이 최종 검토합니다.</span></div>
+            <a href="#analysis" aria-label="새 제목 분석하기">→</a>
           </div>
 
           <nav className="bottom-nav" aria-label="모바일 메뉴">
@@ -163,18 +162,15 @@ function ResultView({
   result,
   onReset,
 }: {
-  result: AnalysisResult;
+  result: ClickbaitResult;
   onReset: () => void;
 }) {
+  const scorePercent = Math.round(result.score * 100);
+  const confidencePercent = Math.round(result.confidence * 100);
+
   return (
     <section className="result-page">
-      <button className="text-button" onClick={onReset}>← 상황 다시 입력하기</button>
-      {result.safetyNotice && (
-        <div className={`safety-notice ${result.urgency}`} role="alert">
-          <strong>{result.urgency === "critical" ? "긴급 안내" : "안전 안내"}</strong>
-          <span>{result.safetyNotice}</span>
-        </div>
-      )}
+      <button className="text-button" onClick={onReset}>← 다른 제목 분석하기</button>
 
       <div className="nasumi-guide compact">
         <img
@@ -182,82 +178,68 @@ function ResultView({
           src={nasumiAi}
           alt="AI 안전 안내 마스코트 나섬이"
         />
-        <p>{result.emotionalSupportMessage}</p>
+        <p><strong>분석이 완료됐어요.</strong><br />결론뿐 아니라 어떤 표현을 근거로 판단했는지 함께 확인해주세요.</p>
       </div>
 
-      <ResultSection title="지금 확인된 상황">
+      <section className="result-section">
+        <h2>클릭베이트 분석 결과</h2>
         <div className="summary-card">
           <div>
-            <span className="meta-label">예상 피해 유형</span>
-            <h2>{result.suspectedHarmType}</h2>
+            <span className="meta-label">AI 분류</span>
+            <h2>{clickbaitLabels[result.label]}</h2>
           </div>
-          <span className={`urgency-badge ${result.urgency}`}>
-            {urgencyLabels[result.urgency]}
+          <span className={`urgency-badge ${result.label}`}>
+            위험도 {scorePercent}%
           </span>
-          <p>{result.situationSummary}</p>
+          <p>{result.summary}</p>
           <div className="confidence">
-            <div><span>분석 신뢰도</span><strong>{Math.round(result.confidence * 100)}%</strong></div>
+            <div><span>분석 신뢰도</span><strong>{confidencePercent}%</strong></div>
             <progress value={result.confidence} max={1} />
-            <small>신뢰도가 낮거나 긴급한 상황은 전문가 검토로 연결합니다.</small>
+            <small>모델: {result.modelProvider} / {result.modelName} · 추적 ID: {result.traceId}</small>
           </div>
         </div>
-      </ResultSection>
+      </section>
 
-      <ResultSection title="지금 먼저 해주세요">
-        <ol className="action-list">
-          {result.immediateActions.map((action) => (
-            <li key={`${action.priority}-${action.title}`}>
-              <span>{action.priority}</span>
-              <div><strong>{action.title}</strong><p>{action.detail}</p></div>
-            </li>
-          ))}
-        </ol>
-      </ResultSection>
+      <section className="result-section">
+        <h2>판단 근거</h2>
+        {result.evidence.length ? (
+          <ol className="action-list">
+            {result.evidence.map((item, index) => (
+              <li key={`${item.indicator}-${item.excerpt}`}>
+                <span>{index + 1}</span>
+                <div>
+                  <strong>{item.indicator}</strong>
+                  <p>발견된 표현: “{item.excerpt}” · 가중치 {Math.round(item.weight * 100)}%</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        ) : (
+          <div className="human-review normal-result">
+            <strong>뚜렷한 클릭 유도 표현이 없어요.</strong>
+            <p>본문의 사실성이나 출처 신뢰도까지 보장하는 결과는 아닙니다.</p>
+          </div>
+        )}
+      </section>
 
-      <ResultSection title="안전하게 검색하기">
+      <section className="result-section">
+        <h2>모델의 한계</h2>
         <div className="query-list">
-          {result.safeSearchQueries.map((query) => (
-            <a
-              key={query}
-              href={`https://www.google.com/search?q=${encodeURIComponent(query)}`}
-              target="_blank"
-              rel="noreferrer"
-            >
-              <span aria-hidden="true">⌕</span>{query}
-            </a>
+          {result.limitations.map((limitation) => (
+            <div className="limitation-item" key={limitation}>
+              <span aria-hidden="true">!</span>{limitation}
+            </div>
           ))}
         </div>
-      </ResultSection>
+      </section>
 
-      <ResultSection title="도움을 받을 수 있는 곳">
-        <div className="agency-list">
-          {result.recommendedAgencies.map((agency) => (
-            <a key={agency.id} href={agency.website} target="_blank" rel="noreferrer">
-              <div><strong>{agency.name}</strong><p>{agency.role}</p></div>
-              <span>{agency.phone ?? "웹사이트"} ↗</span>
-            </a>
-          ))}
-        </div>
-      </ResultSection>
-
-      <div className="human-review">
-        <strong>{result.requiresHumanReview ? "추가 확인이 필요해요" : "자동 분석이 완료됐어요"}</strong>
+      <div className={`human-review ${result.requiresHumanReview ? "" : "normal-result"}`}>
+        <strong>{result.requiresHumanReview ? "사람의 추가 확인이 필요해요" : "자동 분석 범위에서 판단이 안정적이에요"}</strong>
         <p>
-          {result.requiresHumanReview
-            ? "전문가 검토가 필요한 사례로 표시했습니다. 공식기관 상담을 함께 이용해주세요."
-            : "상황이 바뀌거나 불안이 커지면 다시 분석해주세요."}
+          {result.humanReviewReason ??
+            "그래도 중요한 판단 전에는 기사 원문, 작성자, 게시 시각과 다른 출처를 함께 확인해주세요."}
         </p>
       </div>
     </section>
   );
-}
-
-function ResultSection({
-  title,
-  children,
-}: {
-  title: string;
-  children: ReactNode;
-}) {
-  return <section className="result-section"><h2>{title}</h2>{children}</section>;
 }
