@@ -38,3 +38,25 @@ def test_critical_signal_prioritizes_emergency_guidance():
 def test_empty_input_is_rejected():
     response = client.post("/api/v1/analyze", json={"text": ""})
     assert response.status_code == 422
+
+
+def test_health_exposes_service_metadata():
+    response = client.get("/health")
+    assert response.status_code == 200
+    assert response.json() == {
+        "status": "ok",
+        "service": "safe-search-api",
+        "version": "0.1.0",
+    }
+
+
+def test_cors_allows_local_frontend():
+    response = client.options(
+        "/api/v1/analyze",
+        headers={
+            "Origin": "http://localhost:5173",
+            "Access-Control-Request-Method": "POST",
+        },
+    )
+    assert response.status_code == 200
+    assert response.headers["access-control-allow-origin"] == "http://localhost:5173"
