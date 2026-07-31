@@ -4,8 +4,7 @@ import SwiftUI
 struct SAFESEARCHApp: App {
     var body: some Scene {
         WindowGroup {
-            HomeView()
+            RootTabView()
         }
     }
 }
-
