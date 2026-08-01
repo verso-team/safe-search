@@ -1,7 +1,7 @@
 from enum import Enum
 from typing import List, Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 
 class UserIntent(str, Enum):
@@ -46,8 +46,17 @@ class Agency(BaseModel):
     website: str
     is_official: bool = True
 
+
 class AnalyzeRequest(BaseModel):
     text: str = Field(min_length=1, max_length=5000)
+
+    @field_validator("text")
+    @classmethod
+    def normalize_and_validate_text(cls, value: str) -> str:
+        normalized = value.strip()
+        if not normalized:
+            raise ValueError("text must contain non-whitespace characters")
+        return normalized
 
 
 class AnalyzeResponse(BaseModel):
