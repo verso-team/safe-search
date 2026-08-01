@@ -1,4 +1,4 @@
-param(
+﻿param(
     [string]$BaseUrl = "http://127.0.0.1:8000"
 )
 
@@ -35,3 +35,4 @@ $results = foreach ($text in $scenarios) {
 }
 
 $results | Format-Table -Wrap -AutoSize
+
