@@ -1,6 +1,9 @@
 from __future__ import annotations
 
-from app.schemas.analysis import AnalyzeResponse
+from app.schemas.analysis import (
+    ActionItem,
+    AnalyzeResponse,
+)
 from app.services.psychological_safety import (
     SupportMode,
     ToneStyle,
@@ -13,6 +16,16 @@ from app.services.psychological_safety import (
 PSYCHOLOGICAL_STATE_NOTICE = (
     "emotional_state는 키워드 기반 참고 신호이며 "
     "사용자의 실제 심리 상태를 확정하지 않습니다."
+)
+
+PSYCHOLOGICAL_SAFETY_FALLBACK_NOTICE = (
+    "심리적 안전성 점검에서 검토가 필요한 표현이 탐지되어 "
+    "일부 안내를 안전한 기본 문구로 대체했습니다."
+)
+
+FALLBACK_SITUATION_SUMMARY = (
+    "일부 자동 생성 문구는 안전성 검토가 필요해 표시하지 않습니다. "
+    "확인된 대응 정보와 공식기관 안내를 우선 제공합니다."
 )
 
 
@@ -53,6 +66,46 @@ def _collect_user_facing_text(
     )
 
 
+def _safe_fallback_opening(
+    tone: ToneStyle,
+) -> str:
+    if tone == ToneStyle.casual:
+        return (
+            "확인된 정보와 선택 가능한 대응 방법을 "
+            "중심으로 안내해줄게."
+        )
+
+    return (
+        "확인된 정보와 선택 가능한 대응 방법을 "
+        "중심으로 안내해드릴게요."
+    )
+
+
+def _safe_fallback_support(
+    tone: ToneStyle,
+) -> str:
+    if tone == ToneStyle.casual:
+        return "확인된 정보만 기준으로 정리해줄게."
+
+    return "확인된 정보만 기준으로 정리해드릴게요."
+
+
+def _filter_safe_actions(
+    actions: list[ActionItem],
+) -> list[ActionItem]:
+    safe_actions: list[ActionItem] = []
+
+    for action in actions:
+        audit = audit_response_text(
+            f"{action.title}\n{action.detail}"
+        )
+
+        if audit.passed:
+            safe_actions.append(action)
+
+    return safe_actions
+
+
 def apply_psychological_safety_policy(
     result: AnalyzeResponse,
     user_selected_mode: SupportMode | None = None,
@@ -64,7 +117,8 @@ def apply_psychological_safety_policy(
     - 사용자의 명시적 선택을 우선한다.
     - 감정 추론값만으로 응답 방식을 결정하지 않는다.
     - 최종 사용자 노출 문구를 Psychological Safety Audit으로 검사한다.
-    - 위험 표현이 탐지되면 Human Review를 강제로 활성화한다.
+    - Audit 실패 시 위험 후보 문구를 그대로 반환하지 않는다.
+    - 안전한 기본 문구로 대체하고 Human Review를 활성화한다.
     """
 
     mode = recommend_support_mode(
@@ -89,20 +143,38 @@ def apply_psychological_safety_policy(
         PSYCHOLOGICAL_STATE_NOTICE,
     )
 
-    return result.model_copy(
-        update={
-            "support_mode": mode.value,
-            "tone_style": tone.value,
-            "opening_message": opening_message,
-            "psychological_safety_passed": audit.passed,
-            "psychological_safety_issues": [
-                issue.value
-                for issue in audit.issues
-            ],
-            "requires_human_review": (
-                result.requires_human_review
-                or not audit.passed
-            ),
-            "safety_notice": safety_notice,
-        }
-    )
+    updates = {
+        "support_mode": mode.value,
+        "tone_style": tone.value,
+        "opening_message": opening_message,
+        "psychological_safety_passed": audit.passed,
+        "psychological_safety_issues": [
+            issue.value
+            for issue in audit.issues
+        ],
+        "requires_human_review": (
+            result.requires_human_review
+            or not audit.passed
+        ),
+        "safety_notice": safety_notice,
+    }
+
+    if not audit.passed:
+        updates.update(
+            {
+                "opening_message": _safe_fallback_opening(tone),
+                "emotional_support_message": (
+                    _safe_fallback_support(tone)
+                ),
+                "situation_summary": FALLBACK_SITUATION_SUMMARY,
+                "immediate_actions": _filter_safe_actions(
+                    result.immediate_actions
+                ),
+                "safety_notice": _combine_notice(
+                    safety_notice,
+                    PSYCHOLOGICAL_SAFETY_FALLBACK_NOTICE,
+                ),
+            }
+        )
+
+    return result.model_copy(update=updates)
