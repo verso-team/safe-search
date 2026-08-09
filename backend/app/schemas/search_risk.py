@@ -1,4 +1,5 @@
-﻿from enum import Enum
+from enum import Enum
+from typing import Literal
 
 from pydantic import BaseModel, Field, field_validator
 
@@ -15,6 +16,14 @@ class RiskType(str, Enum):
     institution_impersonation = "institution_impersonation"
     financial_lure = "financial_lure"
     personal_information_request = "personal_information_request"
+
+
+ClickbaitDecisionSource = Literal[
+    "none",
+    "rule",
+    "ml",
+    "rule+ml",
+]
 
 
 class SearchRiskRequest(BaseModel):
@@ -44,3 +53,6 @@ class SearchRiskResponse(BaseModel):
     risk_signals: list[str]
     explanation: str
     requires_human_review: bool
+    clickbait_probability: float = Field(ge=0, le=1)
+    clickbait_model: str
+    clickbait_decision_source: ClickbaitDecisionSource

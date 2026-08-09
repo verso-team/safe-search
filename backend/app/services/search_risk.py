@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 import re
 from urllib.parse import urlparse
@@ -8,6 +8,10 @@ from app.schemas.search_risk import (
     RiskType,
     SearchRiskRequest,
     SearchRiskResponse,
+)
+from app.services.clickbait_runtime import (
+    CLICKBAIT_MODEL_NAME,
+    predict_runtime_clickbait,
 )
 
 
@@ -164,6 +168,11 @@ def analyze_search_result(
     combined = f"{title} {snippet}".strip()
     official_domain = _is_official_domain(request.url)
 
+    ml_prediction = predict_runtime_clickbait(
+        title=request.title,
+        snippet=request.snippet,
+    )
+
     risk_types: list[RiskType] = []
     signals: list[str] = []
 
@@ -226,13 +235,35 @@ def analyze_search_result(
     # 중복 가능성을 방어하면서 순서는 유지한다.
     risk_types = list(dict.fromkeys(risk_types))
 
-    is_clickbait = any(
+    rule_is_clickbait = any(
         risk_type in (
             RiskType.sensational,
             RiskType.misleading,
         )
         for risk_type in risk_types
     )
+
+    ml_is_clickbait = ml_prediction.is_clickbait
+
+    is_clickbait = (
+        rule_is_clickbait
+        or ml_is_clickbait
+    )
+
+    if rule_is_clickbait and ml_is_clickbait:
+        clickbait_decision_source = "rule+ml"
+    elif rule_is_clickbait:
+        clickbait_decision_source = "rule"
+    elif ml_is_clickbait:
+        clickbait_decision_source = "ml"
+    else:
+        clickbait_decision_source = "none"
+
+    if ml_is_clickbait:
+        _append_unique(
+            signals,
+            "TF-IDF baseline detected a clickbait signal.",
+        )
 
     high_impact_types = {
         RiskType.institution_impersonation,
@@ -247,7 +278,7 @@ def analyze_search_result(
 
     if has_high_impact_risk:
         risk_level = RiskLevel.high
-    elif risk_types:
+    elif risk_types or ml_is_clickbait:
         risk_level = RiskLevel.medium
     else:
         risk_level = RiskLevel.low
@@ -274,6 +305,12 @@ def analyze_search_result(
             f"현재 규칙에서 {labels} 신호가 탐지되었습니다. "
             "이 결과는 사이트의 범죄 여부를 확정하는 판단이 아닙니다."
         )
+    elif ml_is_clickbait:
+        explanation = (
+            "TF-IDF 클릭베이트 baseline에서 클릭베이트 신호가 "
+            "탐지되었습니다. 모델 확률은 범죄 또는 불법성의 "
+            "확률을 의미하지 않습니다."
+        )
     else:
         explanation = (
             "현재 규칙에서 뚜렷한 클릭베이트 또는 추가 피해 위험 신호가 "
@@ -288,4 +325,7 @@ def analyze_search_result(
         risk_signals=signals,
         explanation=explanation,
         requires_human_review=requires_human_review,
+        clickbait_probability=ml_prediction.probability,
+        clickbait_model=CLICKBAIT_MODEL_NAME,
+        clickbait_decision_source=clickbait_decision_source,
     )

@@ -23,7 +23,7 @@ from app.services.search_risk import analyze_search_result
 
 app = FastAPI(
     title="SAFE:SEARCH API",
-    version="0.5.0",
+    version="0.6.0",
 )
 
 

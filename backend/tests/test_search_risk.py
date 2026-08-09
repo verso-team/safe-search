@@ -1,4 +1,4 @@
-﻿from fastapi.testclient import TestClient
+from fastapi.testclient import TestClient
 
 from app.main import app
 from app.schemas.search_risk import (
@@ -174,6 +174,9 @@ def test_search_risk_api_contract():
         "risk_signals",
         "explanation",
         "requires_human_review",
+        "clickbait_probability",
+        "clickbait_model",
+        "clickbait_decision_source",
     }
 
     assert body["is_clickbait"] is True
