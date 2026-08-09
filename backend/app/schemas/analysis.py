@@ -1,7 +1,19 @@
 from enum import Enum
-from typing import List, Optional
+from typing import List, Literal, Optional
 
 from pydantic import BaseModel, Field, field_validator
+
+
+SupportModeValue = Literal[
+    "information_first",
+    "support_first",
+    "user_choice",
+]
+
+ToneStyleValue = Literal[
+    "soft_polite",
+    "casual",
+]
 
 
 class UserIntent(str, Enum):
@@ -50,12 +62,19 @@ class Agency(BaseModel):
 class AnalyzeRequest(BaseModel):
     text: str = Field(min_length=1, max_length=5000)
 
+    support_mode: Optional[SupportModeValue] = None
+    tone_style: ToneStyleValue = "soft_polite"
+
     @field_validator("text")
     @classmethod
     def normalize_and_validate_text(cls, value: str) -> str:
         normalized = value.strip()
+
         if not normalized:
-            raise ValueError("text must contain non-whitespace characters")
+            raise ValueError(
+                "text must contain non-whitespace characters"
+            )
+
         return normalized
 
 
@@ -73,3 +92,12 @@ class AnalyzeResponse(BaseModel):
     recommended_agencies: List[Agency]
     requires_human_review: bool
     safety_notice: Optional[str] = None
+
+    # Psychological Safety v0.1
+    support_mode: SupportModeValue = "user_choice"
+    tone_style: ToneStyleValue = "soft_polite"
+    opening_message: str = ""
+    psychological_safety_passed: bool = True
+    psychological_safety_issues: List[str] = Field(
+        default_factory=list
+    )
