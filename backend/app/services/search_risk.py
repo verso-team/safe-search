@@ -156,7 +156,7 @@ def _append_unique(items: list[str], value: str) -> None:
 def analyze_search_result(
     request: SearchRiskRequest,
 ) -> SearchRiskResponse:
-    """검색결과의 클릭베이트 및 추가 피해 위험 신호를 규칙 기반으로 분석한다.
+    """검색결과의 클릭베이트 및 추가 피해 위험 신호를 규칙과 ML baseline으로 분석한다.
 
     이 결과는 사이트의 불법성이나 범죄 여부를 확정하지 않는다.
     confidence는 실제 범죄 확률이 아니라 현재 규칙이 입력과 얼마나
@@ -262,7 +262,7 @@ def analyze_search_result(
     if ml_is_clickbait:
         _append_unique(
             signals,
-            "TF-IDF baseline detected a clickbait signal.",
+            "TF-IDF baseline에서 클릭베이트 신호가 탐지되었습니다.",
         )
 
     high_impact_types = {
