@@ -1,0 +1,61 @@
+﻿id,title,snippet,is_clickbait,safety_flags,label_reason,human_review_expected,source_type
+001,사이버범죄 신고 절차,경찰청 공식 신고 절차와 준비해야 할 정보를 확인할 수 있습니다.,0,none,중립적이고 사실 중심의 정보 안내,false,synthetic
+002,사이버범죄 신고 절차 확인,경찰청 공식 신고 절차와 준비해야 할 정보를 확인할 수 있습니다. 필요한 내용을 단계별로 확인합니다.,0,none,과장 없이 절차와 정보를 안내,false,synthetic
+003,KISA 118 상담 안내,"해킹과 스미싱, 개인정보 침해 관련 상담 방법을 안내합니다.",0,none,중립적이고 사실 중심의 정보 안내,false,synthetic
+004,KISA 118 상담 안내 확인,"해킹과 스미싱, 개인정보 침해 관련 상담 방법을 안내합니다. 필요한 내용을 단계별로 확인합니다.",0,none,과장 없이 절차와 정보를 안내,false,synthetic
+005,보이스피싱 피해 후 대응 순서,금융기관 확인과 신고 등 피해 발생 후 대응 절차를 설명합니다.,0,none,중립적이고 사실 중심의 정보 안내,false,synthetic
+006,보이스피싱 피해 후 대응 순서 확인,금융기관 확인과 신고 등 피해 발생 후 대응 절차를 설명합니다. 필요한 내용을 단계별로 확인합니다.,0,none,과장 없이 절차와 정보를 안내,false,synthetic
+007,스미싱 문자 증거 보존 방법,"문자 내용과 발신번호, 링크를 보존하는 방법을 안내합니다.",0,none,중립적이고 사실 중심의 정보 안내,false,synthetic
+008,스미싱 문자 증거 보존 방법 확인,"문자 내용과 발신번호, 링크를 보존하는 방법을 안내합니다. 필요한 내용을 단계별로 확인합니다.",0,none,과장 없이 절차와 정보를 안내,false,synthetic
+009,계정 탈취 후 비밀번호 변경 방법,비밀번호 변경과 로그인 세션 종료 순서를 설명합니다.,0,none,중립적이고 사실 중심의 정보 안내,false,synthetic
+010,계정 탈취 후 비밀번호 변경 방법 확인,비밀번호 변경과 로그인 세션 종료 순서를 설명합니다. 필요한 내용을 단계별로 확인합니다.,0,none,과장 없이 절차와 정보를 안내,false,synthetic
+011,디지털성범죄 피해지원 안내,피해 상담과 삭제지원 등 이용 가능한 지원 내용을 안내합니다.,0,none,중립적이고 사실 중심의 정보 안내,false,synthetic
+012,디지털성범죄 피해지원 안내 확인,피해 상담과 삭제지원 등 이용 가능한 지원 내용을 안내합니다. 필요한 내용을 단계별로 확인합니다.,0,none,과장 없이 절차와 정보를 안내,false,synthetic
+013,온라인 스토킹 피해 기록 방법,"발생 시각과 계정, 메시지를 시간순으로 기록하는 방법입니다.",0,none,중립적이고 사실 중심의 정보 안내,false,synthetic
+014,온라인 스토킹 피해 기록 방법 확인,"발생 시각과 계정, 메시지를 시간순으로 기록하는 방법입니다. 필요한 내용을 단계별로 확인합니다.",0,none,과장 없이 절차와 정보를 안내,false,synthetic
+015,의심 링크를 안전하게 확인하는 방법,링크를 직접 실행하지 않고 출처를 확인하는 기본 방법입니다.,0,none,중립적이고 사실 중심의 정보 안내,false,synthetic
+016,의심 링크를 안전하게 확인하는 방법 확인,링크를 직접 실행하지 않고 출처를 확인하는 기본 방법입니다. 필요한 내용을 단계별로 확인합니다.,0,none,과장 없이 절차와 정보를 안내,false,synthetic
+017,개인정보 유출 후 조치,계정 보안 점검과 관련 기관 상담 순서를 안내합니다.,0,none,중립적이고 사실 중심의 정보 안내,false,synthetic
+018,개인정보 유출 후 조치 확인,계정 보안 점검과 관련 기관 상담 순서를 안내합니다. 필요한 내용을 단계별로 확인합니다.,0,none,과장 없이 절차와 정보를 안내,false,synthetic
+019,2단계 인증 설정 방법,계정 보안을 위한 2단계 인증 설정 절차를 안내합니다.,0,none,중립적이고 사실 중심의 정보 안내,false,synthetic
+020,2단계 인증 설정 방법 확인,계정 보안을 위한 2단계 인증 설정 절차를 안내합니다. 필요한 내용을 단계별로 확인합니다.,0,none,과장 없이 절차와 정보를 안내,false,synthetic
+021,금융감독원 피해금 환급 신청센터,환급 확인을 위해 계좌번호를 입력해 주세요.,0,institution_impersonation|personal_information_request,중립적 제목이지만 기관 사칭과 개인정보 요구 위험,true,synthetic
+022,검찰청 안전계좌 확인 안내,피해금 보호를 위해 지정된 안전계좌로 송금해 주세요.,0,institution_impersonation|financial_lure,중립적 제목이지만 기관 사칭과 송금 위험,true,synthetic
+023,경찰청 사건 조회 서비스,사건 조회를 위해 주민등록번호를 입력해 주세요.,0,institution_impersonation|personal_information_request,기관 사칭과 개인정보 요구 위험,true,synthetic
+024,KISA 보안 점검 접수,보안 확인을 위해 OTP 인증번호를 전달해 주세요.,0,institution_impersonation|personal_information_request,기관 사칭과 인증정보 요구 위험,true,synthetic
+025,정부 긴급지원금 지급 안내,지원금 지급 전 수수료를 먼저 입금해 주세요.,0,institution_impersonation|financial_lure,기관 사칭과 선입금 요구 위험,true,synthetic
+026,디지털성범죄 삭제지원 접수,삭제 처리를 위해 원본 영상을 메신저로 전송해 주세요.,0,personal_information_request,민감자료 제공을 요구하는 위험,true,synthetic
+027,은행 보안센터 계정 복구,계정 복구를 위해 OTP 인증번호를 보내 주세요.,0,personal_information_request,인증정보 요구 위험,true,synthetic
+028,사이버수사대 피해보상 신청,보상 처리를 위해 수수료를 송금해 주세요.,0,institution_impersonation|financial_lure,기관 사칭과 금전 요구 위험,true,synthetic
+029,피해자지원센터 긴급접수,본인 확인을 위해 카드번호를 입력해 주세요.,0,institution_impersonation|personal_information_request,기관 사칭과 결제정보 요구 위험,true,synthetic
+030,금감원 계좌 보호 서비스,보호 조치를 위해 자금을 안전계좌로 이체해 주세요.,0,institution_impersonation|financial_lure,기관 사칭과 송금 요구 위험,true,synthetic
+031,충격!! 경찰도 모르는 보이스피싱 환급 비밀,피해자라면 반드시 알아야 할 방법을 공개합니다.,1,sensational|misleading,과장·긴급성·호기심 유도 표현,false,synthetic
+032,충격!! 경찰도 모르는 보이스피싱 환급 비밀 지금 확인,피해자라면 반드시 알아야 할 방법을 공개합니다. 다른 곳에서는 알려주지 않는 내용입니다.,1,sensational|misleading,과장 표현과 숨겨진 정보 프레이밍,false,synthetic
+033,단독 공개! 신고 전에 반드시 봐야 할 3가지,이 내용을 모르면 신고 과정에서 손해를 볼 수 있습니다.,1,sensational|misleading,과장·긴급성·호기심 유도 표현,false,synthetic
+034,단독 공개! 신고 전에 반드시 봐야 할 3가지 지금 확인,이 내용을 모르면 신고 과정에서 손해를 볼 수 있습니다. 다른 곳에서는 알려주지 않는 내용입니다.,1,sensational|misleading,과장 표현과 숨겨진 정보 프레이밍,false,synthetic
+035,아무도 알려주지 않는 스미싱 대처법,전문가도 잘 말하지 않는 방법을 지금 공개합니다.,1,sensational|misleading,과장·긴급성·호기심 유도 표현,false,synthetic
+036,아무도 알려주지 않는 스미싱 대처법 지금 확인,전문가도 잘 말하지 않는 방법을 지금 공개합니다. 다른 곳에서는 알려주지 않는 내용입니다.,1,sensational|misleading,과장 표현과 숨겨진 정보 프레이밍,false,synthetic
+037,삭제되기 전 확인! 피해자가 절대 놓치면 안 되는 정보,곧 사라질 수 있으니 지금 확인하세요.,1,sensational|misleading,과장·긴급성·호기심 유도 표현,false,synthetic
+038,삭제되기 전 확인! 피해자가 절대 놓치면 안 되는 정보 지금 확인,곧 사라질 수 있으니 지금 확인하세요. 다른 곳에서는 알려주지 않는 내용입니다.,1,sensational|misleading,과장 표현과 숨겨진 정보 프레이밍,false,synthetic
+039,100% 계정 복구하는 방법,누구나 한 번에 계정을 되찾을 수 있습니다.,1,sensational|misleading,과장·긴급성·호기심 유도 표현,false,synthetic
+040,100% 계정 복구하는 방법 지금 확인,누구나 한 번에 계정을 되찾을 수 있습니다. 다른 곳에서는 알려주지 않는 내용입니다.,1,sensational|misleading,과장 표현과 숨겨진 정보 프레이밍,false,synthetic
+041,경악! 내 휴대폰이 이미 해킹됐다는 증거,이 증상 하나만 있으면 해킹된 것입니다.,1,sensational|misleading,과장·긴급성·호기심 유도 표현,false,synthetic
+042,경악! 내 휴대폰이 이미 해킹됐다는 증거 지금 확인,이 증상 하나만 있으면 해킹된 것입니다. 다른 곳에서는 알려주지 않는 내용입니다.,1,sensational|misleading,과장 표현과 숨겨진 정보 프레이밍,false,synthetic
+043,소름 돋는 피싱 문자 구별법,이 특징을 모르면 누구나 당할 수 있습니다.,1,sensational|misleading,과장·긴급성·호기심 유도 표현,false,synthetic
+044,소름 돋는 피싱 문자 구별법 지금 확인,이 특징을 모르면 누구나 당할 수 있습니다. 다른 곳에서는 알려주지 않는 내용입니다.,1,sensational|misleading,과장 표현과 숨겨진 정보 프레이밍,false,synthetic
+045,대박! 신고 없이 피해금 돌려받는 방법,복잡한 신고 없이 바로 해결할 수 있습니다.,1,sensational|misleading,과장·긴급성·호기심 유도 표현,false,synthetic
+046,대박! 신고 없이 피해금 돌려받는 방법 지금 확인,복잡한 신고 없이 바로 해결할 수 있습니다. 다른 곳에서는 알려주지 않는 내용입니다.,1,sensational|misleading,과장 표현과 숨겨진 정보 프레이밍,false,synthetic
+047,지금 당장 확인! 당신 계정도 털렸을 수 있습니다,늦기 전에 즉시 확인해야 합니다.,1,sensational|misleading,과장·긴급성·호기심 유도 표현,false,synthetic
+048,지금 당장 확인! 당신 계정도 털렸을 수 있습니다 지금 확인,늦기 전에 즉시 확인해야 합니다. 다른 곳에서는 알려주지 않는 내용입니다.,1,sensational|misleading,과장 표현과 숨겨진 정보 프레이밍,false,synthetic
+049,무조건 성공하는 증거 확보법,이 방법만 따르면 증거 확보에 실패하지 않습니다.,1,sensational|misleading,과장·긴급성·호기심 유도 표현,false,synthetic
+050,무조건 성공하는 증거 확보법 지금 확인,이 방법만 따르면 증거 확보에 실패하지 않습니다. 다른 곳에서는 알려주지 않는 내용입니다.,1,sensational|misleading,과장 표현과 숨겨진 정보 프레이밍,false,synthetic
+051,충격! 금융감독원 특별 환급 링크 공개,환급을 위해 계좌번호를 입력해 주세요.,1,sensational|institution_impersonation|personal_information_request,클릭베이트와 고영향 피해 위험이 함께 존재,true,synthetic
+052,단독! 검찰 안전계좌로 보내면 피해금 100% 보호,지금 지정 계좌로 송금하면 피해금을 보호할 수 있습니다.,1,sensational|institution_impersonation|financial_lure,클릭베이트와 고영향 피해 위험이 함께 존재,true,synthetic
+053,경찰만 아는 피해금 복구법 지금 신청,신청을 위해 주민등록번호를 입력해 주세요.,1,sensational|institution_impersonation|personal_information_request,클릭베이트와 고영향 피해 위험이 함께 존재,true,synthetic
+054,KISA 긴급복구 비밀 페이지,복구를 위해 OTP 인증번호를 보내 주세요.,1,misleading|institution_impersonation|personal_information_request,클릭베이트와 고영향 피해 위험이 함께 존재,true,synthetic
+055,정부 지원금 오늘 마감! 수수료 선입금 필수,지급 대상 확인 전에 수수료를 입금해 주세요.,1,sensational|institution_impersonation|financial_lure,클릭베이트와 고영향 피해 위험이 함께 존재,true,synthetic
+056,삭제되기 전! 디지털성범죄 영상 즉시 삭제,삭제 처리를 위해 원본 파일을 업로드해 주세요.,1,sensational|misleading|personal_information_request,클릭베이트와 고영향 피해 위험이 함께 존재,true,synthetic
+057,은행이 숨긴 계정복구 링크,계정 확인을 위해 인증번호를 보내 주세요.,1,misleading|personal_information_request,클릭베이트와 고영향 피해 위험이 함께 존재,true,synthetic
+058,100% 보상! 사이버수사대 피해보상 접수,보상 처리를 위해 수수료를 송금해 주세요.,1,sensational|institution_impersonation|financial_lure,클릭베이트와 고영향 피해 위험이 함께 존재,true,synthetic
+059,단 1분! 피해자지원센터 본인확인,즉시 접수를 위해 카드번호를 입력해 주세요.,1,sensational|institution_impersonation|personal_information_request,클릭베이트와 고영향 피해 위험이 함께 존재,true,synthetic
+060,금감원 비밀 계좌보호법 공개,피해 방지를 위해 안전계좌로 바로 이체해 주세요.,1,misleading|institution_impersonation|financial_lure,클릭베이트와 고영향 피해 위험이 함께 존재,true,synthetic

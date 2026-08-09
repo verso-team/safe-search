@@ -1,0 +1,15 @@
+{
+  "dataset_scope": "synthetic_seed_only",
+  "train_rows": 45,
+  "test_rows": 15,
+  "precision": 0.8,
+  "recall": 0.571429,
+  "f1": 0.666667,
+  "confusion_matrix": {
+    "tn": 7,
+    "fp": 1,
+    "fn": 3,
+    "tp": 4
+  },
+  "clickbait_false_negative_rate": 0.428571
+}
