@@ -42,6 +42,17 @@ struct SafeSearchHubView: View {
                     }
                 }
 
+                NavigationLink {
+                    SearchRiskCheckView()
+                } label: {
+                    Label("검색결과 위험 신호 확인", systemImage: "exclamationmark.shield.fill")
+                        .font(.headline)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                }
+                .buttonStyle(.borderedProminent)
+                .tint(.orange)
+
                 NavigationLink { SupportHubView() } label: {
                     Label("검증된 공식기관 먼저 보기", systemImage: "checkmark.shield.fill")
                         .font(.headline).frame(maxWidth: .infinity).padding()

@@ -21,10 +21,17 @@ enum APIConfiguration {
             .appendingPathComponent("analyze")
     }
 
+    static var searchRiskURL: URL {
+        baseURL
+            .appendingPathComponent("api")
+            .appendingPathComponent("v1")
+            .appendingPathComponent("search-risk")
+    }
+
     static let requestTimeout: TimeInterval = 12
 
-    /// 개발 시연 중 서버가 꺼져 있어도 화면 흐름을 확인할 수 있도록 한다.
-    /// Release 빌드에서는 자동으로 비활성화된다.
+    /// 개발 시연 중 서버가 꺼져 있어도 기존 Analyze 화면 흐름을 확인한다.
+    /// Search Risk는 위험 provenance를 흐리지 않기 위해 Mock fallback을 사용하지 않는다.
     static var allowsMockFallback: Bool {
         #if DEBUG
         true
