@@ -91,7 +91,7 @@ _RULES: tuple[_RedactionRule, ...] = (
     _RedactionRule(
         PIICategory.email,
         re.compile(
-            r"(?<![\w.+-])[\w.+-]+@(?:[\w-]+\.)+[A-Za-z]{2,63}(?![\w.-])",
+            r"(?<![\w.+-])[\w.+-]+@(?:[\w-]+\.)+[A-Za-z]{2,63}(?![A-Za-z0-9_.-])",
             re.IGNORECASE,
         ),
         PIICategory.email.placeholder,
