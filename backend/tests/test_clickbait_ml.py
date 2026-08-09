@@ -17,6 +17,15 @@ ROOT = Path(__file__).resolve().parents[2]
 SEED_DATASET = ROOT / "data" / "clickbait" / "seed_v0.csv"
 
 
+def test_seed_dataset_encoding_preserves_korean():
+    raw = SEED_DATASET.read_text(encoding="utf-8-sig")
+
+    assert "경찰청" in raw
+    assert "충격" in raw
+    assert "보이스피싱" in raw
+    assert "???" not in raw
+
+
 def test_seed_dataset_contract():
     dataframe = load_dataset(SEED_DATASET)
 
@@ -50,8 +59,8 @@ def test_train_and_predict_probability():
 
     result = predict_clickbait(
         model,
-        title="??! ??? ???? ?? ?? ?? ??",
-        snippet="?? ?? ???? ???.",
+        title="충격! 아무도 알려주지 않는 피해 대응 비밀",
+        snippet="지금 바로 확인해야 합니다.",
     )
 
     assert isinstance(result.is_clickbait, bool)
@@ -94,13 +103,13 @@ def test_model_save_and_load_roundtrip(tmp_path):
 
     before = predict_clickbait(
         model,
-        "??! ???? ? ??? ? ??",
-        "?? ?????.",
+        "단독! 피해자가 꼭 알아야 할 비밀",
+        "지금 확인하세요.",
     )
     after = predict_clickbait(
         restored,
-        "??! ???? ? ??? ? ??",
-        "?? ?????.",
+        "단독! 피해자가 꼭 알아야 할 비밀",
+        "지금 확인하세요.",
     )
 
     assert before == after
